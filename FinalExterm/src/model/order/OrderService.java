@@ -24,7 +24,7 @@ public class OrderService {
 	}
 
 	public OrderBean insertMember(OrderBean bean) throws SQLException {
-		return dao.insertMember(bean);
+		return dao.insertOrder(bean);
 	}
 
 	public int delete(int oId) {

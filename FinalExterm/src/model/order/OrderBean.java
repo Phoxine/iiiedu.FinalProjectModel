@@ -8,7 +8,7 @@ public class OrderBean implements Serializable {
 	private int oId; // Order ID
 	private int pId; // Product ID
 	private int mId; // Memeber ID
-	private Timestamp date; // Order Date
+	private Timestamp odate; // Order Date
 	private int price; // total
 	private String status; // processing status
 
@@ -20,13 +20,13 @@ public class OrderBean implements Serializable {
 		this.oId = oId;
 		this.pId = pId;
 		this.mId = mId;
-		this.date = date;
+		this.odate = date;
 		this.price = price;
 		this.status = status;
 	}
 
 	public String toString() {
-		return "[" + oId + "," + pId + "," + mId + "," + date + "," + price + "," + status + "]";
+		return "[" + oId + "," + pId + "," + mId + "," + odate + "," + price + "," + status + "]";
 	}
 	
 	/**
@@ -74,15 +74,15 @@ public class OrderBean implements Serializable {
 	/**
 	 * @return the date
 	 */
-	public Timestamp getDate() {
-		return date;
+	public Timestamp getoDate() {
+		return odate;
 	}
 
 	/**
 	 * @param date the date to set
 	 */
-	public void setDate(Timestamp date) {
-		this.date = date;
+	public void setoDate(Timestamp date) {
+		this.odate = date;
 	}
 
 	/**
