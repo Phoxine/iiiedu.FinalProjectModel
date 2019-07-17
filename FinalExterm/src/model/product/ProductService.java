@@ -15,8 +15,8 @@ public class ProductService {
 		dao = new ProductDao(dbString);
 	}	
 	
-	public ProductBean select(String id) {
-		return dao.select(id);
+	public ProductBean select(int pId) {
+		return dao.select(pId);
 	}
 	
 	public List<ProductBean> select() {
@@ -24,10 +24,10 @@ public class ProductService {
 	}
 
 	public ProductBean insertMember(ProductBean bean) throws SQLException {
-		return dao.insertMember(bean);
+		return dao.insertProduct(bean);
 	}
 
-	public int delete(String memberId) {
-		return dao.delete(memberId);
+	public int delete(int pId) {
+		return dao.delete(pId);
 	}
 }

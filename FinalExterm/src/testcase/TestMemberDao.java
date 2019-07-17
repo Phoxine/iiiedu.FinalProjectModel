@@ -1,9 +1,6 @@
 package testcase;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
 
-import model.member.MemberBean;
 import model.member.MemberDao;
 
 public class TestMemberDao {

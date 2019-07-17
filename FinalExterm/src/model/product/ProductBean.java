@@ -2,115 +2,134 @@
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class ProductBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String memberId;   			// 帳號
-	private String password;   			// 密碼
-	private String name;       			// 姓名
-	private String address;    			// 地址
-	private String	phone;     			// 電話
-	private java.util.Date birthday;	// 生日	
-	private java.sql.Timestamp registerDate;	// 會員登錄日期
-	private double weight;				// 體重
+
+	private int pId;					//product id
+	private String pname;				//product name
+	private int price;					//product price
+	private int vId;					//vendor id
+	private int amount;					//amount
+	private String category;			//category
+	private java.sql.Timestamp sdate;	//storage date
+	private java.sql.Timestamp expdate; //expired date
+	
+	public ProductBean(int pId, String pname, int price, int vId, int amount, String category, String sdate,
+			String expdate) {
+		this.pId = pId;
+		this.pname = pname;
+		this.price = price;
+		this.vId = vId;
+		this.amount = amount;
+		this.category = category;
+		this.sdate = new Timestamp(java.sql.Date.valueOf(sdate).getTime());
+		this.expdate = new Timestamp(java.sql.Date.valueOf(expdate).getTime());
+	}
 	
 	public ProductBean() {
-	} 
-	
-	public ProductBean(String memberId, String name, String password, String address, String phone, Date birthday,
-			Timestamp registerDate, double weight) {
-		super();
-		this.memberId = memberId;
-		this.name = name;
-		this.password = password;
-		this.address = address;
-		this.phone = phone;
-		this.birthday = birthday;
-		this.registerDate = registerDate;
-		this.weight = weight;
+		
 	}
-
-	public java.sql.Timestamp getRegisterDate() {
-		return registerDate;
-	}
-
-	public void setRegisterDate(java.sql.Timestamp registerdate) {
-		this.registerDate = registerdate;
-	}
-	
-	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-	public static java.util.Date convertDate(String temp){
-		java.util.Date result = new java.util.Date();
-		try {
-			result=sdf.parse(temp);
-		} catch (ParseException e) {
-			result = null ; 
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
+	@Override
 	public String toString() {
-		return "["+memberId+","+name+","+address+","+phone+","+birthday+","+weight+"]";
-	}	
-
-	public String getMemberId() {
-		return memberId;
+		return "[" + pId + "," + pname + "," + price + "," + vId + "," + amount + "," + category + "," + sdate + ","
+				+ expdate +"]";
 	}
-
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	
+	/**
+	 * @return the pId
+	 */
+	public int getpId() {
+		return pId;
 	}
-
-	public String getPassword() {
-		return password;
+	/**
+	 * @param pId the pId to set
+	 */
+	public void setpId(int pId) {
+		this.pId = pId;
 	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	/**
+	 * @return the pname
+	 */
+	public String getPname() {
+		return pname;
 	}
-
-	public String getName() {
-		return name;
+	/**
+	 * @param pname the pname to set
+	 */
+	public void setPname(String pname) {
+		this.pname = pname;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	/**
+	 * @return the price
+	 */
+	public int getPrice() {
+		return price;
 	}
-
-	public String getAddress() {
-		return address;
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(int price) {
+		this.price = price;
 	}
-
-	public void setAddress(String address) {
-		this.address = address;
+	/**
+	 * @return the vId
+	 */
+	public int getvId() {
+		return vId;
 	}
-
-	public String getPhone() {
-		return phone;
+	/**
+	 * @param vId the vId to set
+	 */
+	public void setvId(int vId) {
+		this.vId = vId;
 	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
+	/**
+	 * @return the amount
+	 */
+	public int getAmount() {
+		return amount;
 	}
-
-	public java.util.Date getBirthday() {
-		return birthday;
+	/**
+	 * @param amount the amount to set
+	 */
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
-
-	public void setBirthday(java.util.Date birthday) {
-		this.birthday = birthday;
+	/**
+	 * @return the category
+	 */
+	public String getCategory() {
+		return category;
 	}
-
-	public double getWeight() {
-		return weight;
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(String category) {
+		this.category = category;
 	}
-
-	public void setWeight(double weight) {
-		this.weight = weight;
+	/**
+	 * @return the sdate
+	 */
+	public java.sql.Timestamp getSdate() {
+		return sdate;
+	}
+	/*
+	 * @param sdate the sdate to set
+	 */
+	public void setSdate(java.sql.Timestamp sdate) {
+		this.sdate = sdate;
+	}
+	/**
+	 * @return the expdate
+	 */
+	public java.sql.Timestamp getExpdate() {
+		return expdate;
+	}
+	/**
+	 * @param expdate the expdate to set
+	 */
+	public void setExpdate(java.sql.Timestamp expdate) {
+		this.expdate = expdate;
 	}
 }
