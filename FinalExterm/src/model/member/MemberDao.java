@@ -37,7 +37,11 @@ public class MemberDao {
 		}
 	}
 
-	private static final String SELECT_BY_ID = "Select mId, name, tel, addr, rdate, account, password, email from member where mId = ?";
+	private static final String SELECT_BY_ID = "Select mId, name, tel, addr, rdate, account, password, email,birthday from member where mId = ?";
+	private static final String SELECT_BY_NAME = "Select mId, name, tel, addr, rdate, account, password, email, birthday from member where name = ?";
+	private static final String SELECT_ALL = "Select mId, name, tel, addr, rdate, account, password, email , birthday from member";
+	private static final String INSERT = "Insert into member (mId, name, tel, addr, rdate, account, password, email, birthday) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String DELETE = "Delete from member where mId=?";
 
 	public MemberBean select(int mid) {
 		MemberBean result = null;
@@ -55,6 +59,7 @@ public class MemberDao {
 					result.setAccount(rset.getString("account"));
 					result.setPassword(rset.getString("password"));
 					result.setEmail(rset.getString("email"));
+					result.setBirthday(rset.getTimestamp("birthday"));
 				}
 			}
 		} catch (SQLException e) {
@@ -63,11 +68,10 @@ public class MemberDao {
 		return result;
 	}
 
-	private static final String SELECT_BY_NAME = "Select mId, name, tel, addr, rdate, account, password, email from member where name = ?";
-
 	public MemberBean select(String name) {
 		MemberBean result = null;
 		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(SELECT_BY_NAME);) {
+
 			stmt.setString(1, name);
 			try (ResultSet rset = stmt.executeQuery();) {
 				if (rset.next()) {
@@ -81,6 +85,7 @@ public class MemberDao {
 					result.setAccount(rset.getString("account"));
 					result.setPassword(rset.getString("password"));
 					result.setEmail(rset.getString("email"));
+					result.setBirthday(rset.getTimestamp("birthday"));
 				}
 			}
 		} catch (SQLException e) {
@@ -88,8 +93,6 @@ public class MemberDao {
 		}
 		return result;
 	}
-
-	private static final String SELECT_ALL = "Select mId, name, tel, addr, rdate, account, password, email from member";
 
 	public List<MemberBean> select() {
 		List<MemberBean> result = null;
@@ -117,8 +120,6 @@ public class MemberDao {
 		return result;
 	}
 
-	private static final String INSERT = "Insert into member (mId, name, tel, addr, rdate, account, password, email, birthday) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
 	public MemberBean insertMember(MemberBean bean) throws SQLException {
 		MemberBean result = null;
 		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(INSERT);) {
@@ -140,8 +141,6 @@ public class MemberDao {
 		return result;
 	}
 
-	private static final String DELETE = "Delete from member where mId=?";
-
 	public int delete(int mId) {
 		int result = 0;
 		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(DELETE);) {
@@ -153,8 +152,8 @@ public class MemberDao {
 		return result;
 	}
 
-	/*
-	 * test code
+	/***********************************************************************************************
+	 * JDBC test code
 	 */
 
 	Connection connection = null;
@@ -193,6 +192,8 @@ public class MemberDao {
 					result.setAccount(rset.getString("account"));
 					result.setPassword(rset.getString("password"));
 					result.setEmail(rset.getString("email"));
+					result.setBirthday(rset.getTimestamp("birthday"));
+
 				}
 			}
 		} catch (SQLException e) {
@@ -216,6 +217,7 @@ public class MemberDao {
 				temp.setAccount(rset.getString("account"));
 				temp.setPassword(rset.getString("password"));
 				temp.setEmail(rset.getString("email"));
+				temp.setBirthday(rset.getTimestamp("birthday"));
 				result.add(temp);
 			}
 		} catch (SQLException e) {
@@ -227,7 +229,7 @@ public class MemberDao {
 	public MemberBean insertMember(MemberBean bean, boolean test) throws SQLException {
 		MemberBean result = null;
 		try (PreparedStatement stmt = connection.prepareStatement(
-				"Insert into member (name, tel, addr, rdate, account, password, email) values (?, ?, ?, ?, ?, ?, ?)");) {
+				"Insert into member (name, tel, addr, rdate, account, password, email,birthday) values (?, ?, ?, ?, ?, ?, ? ,?)");) {
 			stmt.setString(1, bean.getName());
 			stmt.setBigDecimal(2, bean.getTel());
 			stmt.setString(3, bean.getAddr());
@@ -236,6 +238,7 @@ public class MemberDao {
 			stmt.setString(5, bean.getAccount());
 			stmt.setString(6, bean.getPassword());
 			stmt.setString(7, bean.getEmail());
+			stmt.setTimestamp(8, bean.getBirthday());
 			int i = stmt.executeUpdate();
 			if (i == 1) {
 				result = this.select(bean.getName(), true);

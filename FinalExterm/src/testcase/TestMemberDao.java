@@ -17,10 +17,14 @@ public class TestMemberDao {
 		MemberDao dao = new MemberDao(url + dbName, user, password);
 
 		try {
-			MemberBean test = dao.insertMember(
-					new MemberBean(1, "peterchao", "020488995", "天龍國", new Timestamp(0), "peterchao","a12345", "peterchao@gmail.com","1996-01-30"), true);
-			System.out.println(test.toString());
-		} catch (SQLException e) {
+//			MemberBean test = dao.insertMember(
+//					new MemberBean(1, "peterchao", "020488995", "天龍國", new Timestamp(0), "peterchao","a12345", "peterchao@gmail.com","1996-01-30"), true);
+//			System.out.println(test.toString());
+//			System.out.println(dao.delete(8, true));
+//			System.out.println(dao.select("peterchao",true).toString());
+//			System.out.println(dao.select(true).get(0).toString());
+			System.out.println(dao.select(true).toString());
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
