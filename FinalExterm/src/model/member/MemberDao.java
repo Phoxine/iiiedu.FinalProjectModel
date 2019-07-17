@@ -37,10 +37,10 @@ public class MemberDao {
 		}
 	}
 
-	private static final String SELECT_BY_ID = "Select mId, name, tel, addr, rdate, account, password, email,birthday from member where mId = ?";
-	private static final String SELECT_BY_NAME = "Select mId, name, tel, addr, rdate, account, password, email, birthday from member where name = ?";
-	private static final String SELECT_ALL = "Select mId, name, tel, addr, rdate, account, password, email , birthday from member";
-	private static final String INSERT = "Insert into member (mId, name, tel, addr, rdate, account, password, email, birthday) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String SELECT_BY_ID = "Select mId, name, tel, addr, rdate, account, password, email,birthday,sex from member where mId = ?";
+	private static final String SELECT_BY_NAME = "Select mId, name, tel, addr, rdate, account, password, email, birthday,sex from member where name = ?";
+	private static final String SELECT_ALL = "Select mId, name, tel, addr, rdate, account, password, email , birthday,sex from member";
+	private static final String INSERT = "Insert into member ( name, tel, addr, rdate, account, password, email, birthday,sex) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String DELETE = "Delete from member where mId=?";
 
 	public MemberBean select(int mid) {
@@ -60,7 +60,11 @@ public class MemberDao {
 					result.setPassword(rset.getString("password"));
 					result.setEmail(rset.getString("email"));
 					result.setBirthday(rset.getTimestamp("birthday"));
+					result.setSex(rset.getString("sex"));
 				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -86,7 +90,11 @@ public class MemberDao {
 					result.setPassword(rset.getString("password"));
 					result.setEmail(rset.getString("email"));
 					result.setBirthday(rset.getTimestamp("birthday"));
+					result.setSex(rset.getString("sex"));
 				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -112,9 +120,13 @@ public class MemberDao {
 				temp.setPassword(rset.getString("password"));
 				temp.setEmail(rset.getString("email"));
 				temp.setBirthday(rset.getTimestamp("birthday"));
+				temp.setSex(rset.getString("sex"));
 				result.add(temp);
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
@@ -123,16 +135,17 @@ public class MemberDao {
 	public MemberBean insertMember(MemberBean bean) throws SQLException {
 		MemberBean result = null;
 		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(INSERT);) {
-			stmt.setInt(1, bean.getmId());
-			stmt.setString(2, bean.getName());
-			stmt.setBigDecimal(3, bean.getTel());
-			stmt.setString(4, bean.getAddr());
+//			stmt.setInt(1, bean.getmId());
+			stmt.setString(1, bean.getName());
+			stmt.setBigDecimal(2, bean.getTel());
+			stmt.setString(3, bean.getAddr());
 			Timestamp ts = new Timestamp(System.currentTimeMillis());
-			stmt.setTimestamp(5, ts);
-			stmt.setString(6, bean.getAccount());
-			stmt.setString(7, bean.getPassword());
-			stmt.setString(8, bean.getEmail());
-			stmt.setTimestamp(9, bean.getBirthday());
+			stmt.setTimestamp(4, ts);
+			stmt.setString(5, bean.getAccount());
+			stmt.setString(6, bean.getPassword());
+			stmt.setString(7, bean.getEmail());
+			stmt.setTimestamp(8, bean.getBirthday());
+			stmt.setString(9,bean.getSex());
 			int i = stmt.executeUpdate();
 			if (i == 1) {
 				result = this.select(bean.getmId());
@@ -193,8 +206,11 @@ public class MemberDao {
 					result.setPassword(rset.getString("password"));
 					result.setEmail(rset.getString("email"));
 					result.setBirthday(rset.getTimestamp("birthday"));
-
+					result.setSex(rset.getString("sex"));
 				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -218,9 +234,13 @@ public class MemberDao {
 				temp.setPassword(rset.getString("password"));
 				temp.setEmail(rset.getString("email"));
 				temp.setBirthday(rset.getTimestamp("birthday"));
+				temp.setSex(rset.getString("sex"));
 				result.add(temp);
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
@@ -229,7 +249,7 @@ public class MemberDao {
 	public MemberBean insertMember(MemberBean bean, boolean test) throws SQLException {
 		MemberBean result = null;
 		try (PreparedStatement stmt = connection.prepareStatement(
-				"Insert into member (name, tel, addr, rdate, account, password, email,birthday) values (?, ?, ?, ?, ?, ?, ? ,?)");) {
+				INSERT);) {
 			stmt.setString(1, bean.getName());
 			stmt.setBigDecimal(2, bean.getTel());
 			stmt.setString(3, bean.getAddr());
@@ -239,6 +259,7 @@ public class MemberDao {
 			stmt.setString(6, bean.getPassword());
 			stmt.setString(7, bean.getEmail());
 			stmt.setTimestamp(8, bean.getBirthday());
+			stmt.setString(9, bean.getSex());
 			int i = stmt.executeUpdate();
 			if (i == 1) {
 				result = this.select(bean.getName(), true);

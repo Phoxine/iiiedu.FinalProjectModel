@@ -1,4 +1,4 @@
-﻿package model.member; 
+﻿package model.member;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -7,23 +7,49 @@ import java.text.SimpleDateFormat;
 
 public class MemberBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int mId;   				    //member id		
-	private String name;   			    //member name
-	private java.math.BigDecimal tel;	//phone
-	private String addr;    	        //address
-	private java.sql.Timestamp rdate;   //register date
-	private String account;			    //account
-	private String password;		    //password
-	private String email;			    //email
-	private java.sql.Timestamp birthday;//birthday
+	private int mId; // member id
+	private String name; // member name
+	private java.math.BigDecimal tel; // phone
+	private String addr; // address
+	private java.sql.Timestamp rdate; // register date
+	private String account; // account
+	private String password; // password
+	private String email; // email
+	private java.sql.Timestamp birthday;// birthday
+	private boolean sex; // true = male , false = female
 
-	
+	/**
+	 * @return the sex
+	 */
+	public String getSex() {
+		if(this.sex) {
+			return "male";
+		}else {
+			return "female";
+		}
+		
+	}
 
-	
+	/**
+	 * @param sex the sex to set
+	 * @throws Exception 
+	 */
+	public void setSex(String sex) throws Exception {
+		if (sex.equalsIgnoreCase("MALE")) {
+			this.sex = true;
+		} else if (sex.equalsIgnoreCase("FEMALE")) {
+			this.sex = false;
+		}else {
+			throw new Exception("Sex Data Error");
+		}
+	}
+
 	public String toString() {
-		return "["+mId+","+name+","+tel+","+addr+","+rdate+","+account+","+password+","+email+","+birthday+"]";
-	}	
-	
+
+		return "[" + mId + "," + name + "," + tel + "," + addr + "," + rdate + "," + account + "," + password + ","
+				+ email + "," + birthday +","+ this.getSex() +"]";
+	}
+
 	/**
 	 * @return the birthday
 	 */
@@ -45,16 +71,12 @@ public class MemberBean implements Serializable {
 		return mId;
 	}
 
-
-
 	/**
 	 * @param mId the mId to set
 	 */
 	public void setmId(int mId) {
 		this.mId = mId;
 	}
-
-
 
 	/**
 	 * @return the name
@@ -63,16 +85,12 @@ public class MemberBean implements Serializable {
 		return name;
 	}
 
-
-
 	/**
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
 
 	/**
 	 * @return the tel
@@ -81,16 +99,12 @@ public class MemberBean implements Serializable {
 		return tel;
 	}
 
-
-
 	/**
 	 * @param tel the tel to set
 	 */
 	public void setTel(java.math.BigDecimal tel) {
 		this.tel = tel;
 	}
-
-
 
 	/**
 	 * @return the addr
@@ -99,16 +113,12 @@ public class MemberBean implements Serializable {
 		return addr;
 	}
 
-
-
 	/**
 	 * @param addr the addr to set
 	 */
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
-
-
 
 	/**
 	 * @return the rdate
@@ -117,16 +127,12 @@ public class MemberBean implements Serializable {
 		return rdate;
 	}
 
-
-
 	/**
 	 * @param rdate the rdate to set
 	 */
 	public void setRdate(java.sql.Timestamp rdate) {
 		this.rdate = rdate;
 	}
-
-
 
 	/**
 	 * @return the account
@@ -135,16 +141,12 @@ public class MemberBean implements Serializable {
 		return account;
 	}
 
-
-
 	/**
 	 * @param account the account to set
 	 */
 	public void setAccount(String account) {
 		this.account = account;
 	}
-
-
 
 	/**
 	 * @return the password
@@ -153,8 +155,6 @@ public class MemberBean implements Serializable {
 		return password;
 	}
 
-
-
 	/**
 	 * @param password the password to set
 	 */
@@ -162,16 +162,12 @@ public class MemberBean implements Serializable {
 		this.password = password;
 	}
 
-
-
 	/**
 	 * @return the email
 	 */
 	public String getEmail() {
 		return email;
 	}
-
-
 
 	/**
 	 * @param email the email to set
@@ -184,8 +180,8 @@ public class MemberBean implements Serializable {
 	}
 
 	public MemberBean(int mId, String name, String tel, String addr, Timestamp rdate, String account, String password,
-			String email, String birthday) {
-		super();
+			String email, String birthday, boolean sex) {
+
 		this.mId = mId;
 		this.name = name;
 		this.tel = new java.math.BigDecimal(tel);
@@ -195,22 +191,20 @@ public class MemberBean implements Serializable {
 		this.password = password;
 		this.email = email;
 		this.birthday = new Timestamp(java.sql.Date.valueOf(birthday).getTime());
+		this.sex = sex;
 	}
 
-	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-	public static java.util.Date convertDate(String temp){
+	public static java.util.Date convertDate(String temp) {
 		java.util.Date result = new java.util.Date();
 		try {
-			result=sdf.parse(temp);
+			result = sdf.parse(temp);
 		} catch (ParseException e) {
-			result = null ; 
+			result = null;
 			e.printStackTrace();
 		}
 		return result;
 	}
-
-
 
 }
