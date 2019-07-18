@@ -37,95 +37,6 @@ public class OrderDao {
 		}
 	}
 
-	private static final String SELECT_ALL = "Select oId, pId, mId, odate, price, status from ordertable";
-	private static final String INSERT = "Insert into ordertable (pId, mId, odate, price, status) values (?, ?, ?, ?, ?)";
-	private static final String DELETE = "Delete from ordertable where oId=?";
-	private static final String SELECT_BY_ID = "Select oId, pId, mId, odate, price, status from ordertable where oId = ?";
-	private static final String SELECT_BY_PID = "Select oId, pId, mId, odate, price, status from ordertable where pId = ?";
-
-	public OrderBean select(int oId) {
-		OrderBean result = null;
-		if (connection != null && ds == null) {
-			// 使用DriverManager連接資料庫
-		} else if (connection == null && ds != null) {
-			// 使用Datasource連接資料庫
-		}
-		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID);) {
-			stmt.setInt(1, oId);
-			try (ResultSet rset = stmt.executeQuery();) {
-				if (rset.next()) {
-					result = new OrderBean();
-					result.setoId(rset.getInt("oId"));
-					result.setpId(rset.getInt("pId"));
-					result.setmId(rset.getInt("mId"));
-					result.setoDate(rset.getTimestamp("odate"));
-					result.setPrice(rset.getInt("price"));
-					result.setStatus(rset.getString("status"));
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	public List<OrderBean> select() {
-		List<OrderBean> result = null;
-		try (Connection conn = ds.getConnection();
-				PreparedStatement stmt = conn.prepareStatement(SELECT_ALL);
-				ResultSet rset = stmt.executeQuery();) {
-			result = new Vector<>();
-			while (rset.next()) {
-				OrderBean temp = new OrderBean();
-				temp.setoId(rset.getInt("oId"));
-				temp.setpId(rset.getInt("pId"));
-				temp.setmId(rset.getInt("mId"));
-				temp.setoDate(rset.getTimestamp("odate"));
-				temp.setPrice(rset.getInt("price"));
-				temp.setStatus(rset.getString("status"));
-				result.add(temp);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	public OrderBean insertOrder(OrderBean bean) throws SQLException {
-		OrderBean result = null;
-		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(INSERT);) {
-//			stmt.setInt(1, bean.getoId());
-			stmt.setInt(1, bean.getpId());
-			stmt.setInt(2, bean.getmId());
-			Timestamp ts = new Timestamp(System.currentTimeMillis());
-			stmt.setTimestamp(3, ts);
-			stmt.setInt(4, bean.getPrice());
-			stmt.setString(5, bean.getStatus());
-
-			int i = stmt.executeUpdate();
-			if (i == 1) {
-				result = this.select(bean.getpId());
-			}
-
-		}
-		return result;
-	}
-
-	public int delete(int oId) {
-		int result = 0;
-		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(DELETE);) {
-			stmt.setInt(1, oId);
-			result = stmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	/***********************************************************************************************
-	 * JDBC test code
-	 */
-
 	Connection connection = null;
 
 	public OrderDao(String url, String user, String password) {
@@ -146,75 +57,202 @@ public class OrderDao {
 
 	}
 
-	public OrderBean select(int pId, boolean test) {
+	private static final String SELECT_ALL = "Select oId, pId, mId, odate, price, status from ordertable";
+	private static final String INSERT = "Insert into ordertable (pId, mId, odate, price, status) values (?, ?, ?, ?, ?)";
+	private static final String DELETE = "Delete from ordertable where oId=?";
+	private static final String SELECT_BY_ID = "Select oId, pId, mId, odate, price, status from ordertable where oId = ?";
+	private static final String SELECT_BY_PID = "Select oId, pId, mId, odate, price, status from ordertable where pId = ?";
+
+	public OrderBean select(int oId) {
 		OrderBean result = null;
-		try (PreparedStatement stmt = connection.prepareStatement(SELECT_BY_PID);) {
-			stmt.setInt(1, pId);
-			try (ResultSet rset = stmt.executeQuery();) {
-				if (rset.next()) {
-					result = new OrderBean();
-					result.setoId(rset.getInt("oId"));
-					result.setpId(rset.getInt("pId"));
-					result.setmId(rset.getInt("mId"));
-					result.setoDate(rset.getTimestamp("odate"));
-					result.setPrice(rset.getInt("price"));
-					result.setStatus(rset.getString("status"));
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(SELECT_BY_ID);) {
+				stmt.setInt(1, oId);
+				try (ResultSet rset = stmt.executeQuery();) {
+					if (rset.next()) {
+						result = new OrderBean();
+						result.setoId(rset.getInt("oId"));
+						result.setpId(rset.getInt("pId"));
+						result.setmId(rset.getInt("mId"));
+						result.setoDate(rset.getTimestamp("odate"));
+						result.setPrice(rset.getInt("price"));
+						result.setStatus(rset.getString("status"));
+					}
 				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID);) {
+				stmt.setInt(1, oId);
+				try (ResultSet rset = stmt.executeQuery();) {
+					if (rset.next()) {
+						result = new OrderBean();
+						result.setoId(rset.getInt("oId"));
+						result.setpId(rset.getInt("pId"));
+						result.setmId(rset.getInt("mId"));
+						result.setoDate(rset.getTimestamp("odate"));
+						result.setPrice(rset.getInt("price"));
+						result.setStatus(rset.getString("status"));
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+
 		return result;
 	}
 
-	public List<OrderBean> select(boolean test) {
-		List<OrderBean> result = null;
-		try (PreparedStatement stmt = connection.prepareStatement(SELECT_ALL); ResultSet rset = stmt.executeQuery();) {
-			result = new Vector<>();
-			while (rset.next()) {
-				OrderBean temp = new OrderBean();
-				temp.setoId(rset.getInt("oId"));
-				temp.setpId(rset.getInt("password"));
-				temp.setmId(rset.getInt("mId"));
-				temp.setoDate(rset.getTimestamp("odate"));
-				temp.setPrice(rset.getInt("price"));
-				temp.setStatus(rset.getString("status"));
-				result.add(temp);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	public OrderBean insertOrder(OrderBean bean, boolean test) throws SQLException {
+	public OrderBean select_by_pid(int pid) {
 		OrderBean result = null;
-		try (PreparedStatement stmt = connection.prepareStatement(INSERT);) {
-//			stmt.setInt(1, bean.getoId());
-			stmt.setInt(1, bean.getpId());
-			stmt.setInt(2, bean.getmId());
-			Timestamp ts = new Timestamp(System.currentTimeMillis());
-			stmt.setTimestamp(3, ts);
-			stmt.setInt(4, bean.getPrice());
-			stmt.setString(5, bean.getStatus());
-
-			int i = stmt.executeUpdate();
-			if (i == 1) {
-				result = this.select(bean.getpId(), true);
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(SELECT_BY_PID);) {
+				stmt.setInt(1, pid);
+				try (ResultSet rset = stmt.executeQuery();) {
+					if (rset.next()) {
+						result = new OrderBean();
+						result.setoId(rset.getInt("oId"));
+						result.setpId(rset.getInt("pId"));
+						result.setmId(rset.getInt("mId"));
+						result.setoDate(rset.getTimestamp("odate"));
+						result.setPrice(rset.getInt("price"));
+						result.setStatus(rset.getString("status"));
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID);) {
+				stmt.setInt(1, pid);
+				try (ResultSet rset = stmt.executeQuery();) {
+					if (rset.next()) {
+						result = new OrderBean();
+						result.setoId(rset.getInt("oId"));
+						result.setpId(rset.getInt("pId"));
+						result.setmId(rset.getInt("mId"));
+						result.setoDate(rset.getTimestamp("odate"));
+						result.setPrice(rset.getInt("price"));
+						result.setStatus(rset.getString("status"));
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+
 		return result;
 	}
 
-	public int delete(int oId, boolean test) {
-		int result = 0;
-		try (PreparedStatement stmt = connection.prepareStatement(DELETE);) {
-			stmt.setInt(1, oId);
-			result = stmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
+	public List<OrderBean> select() {
+		List<OrderBean> result = null;
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(SELECT_ALL); ResultSet rset = stmt.executeQuery();) {
+				result = new Vector<>();
+				while (rset.next()) {
+					OrderBean temp = new OrderBean();
+					temp.setoId(rset.getInt("oId"));
+					temp.setpId(rset.getInt("pId"));
+					temp.setmId(rset.getInt("mId"));
+					temp.setoDate(rset.getTimestamp("odate"));
+					temp.setPrice(rset.getInt("price"));
+					temp.setStatus(rset.getString("status"));
+					result.add(temp);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection conn = ds.getConnection();
+					PreparedStatement stmt = conn.prepareStatement(SELECT_ALL);
+					ResultSet rset = stmt.executeQuery();) {
+				result = new Vector<>();
+				while (rset.next()) {
+					OrderBean temp = new OrderBean();
+					temp.setoId(rset.getInt("oId"));
+					temp.setpId(rset.getInt("pId"));
+					temp.setmId(rset.getInt("mId"));
+					temp.setoDate(rset.getTimestamp("odate"));
+					temp.setPrice(rset.getInt("price"));
+					temp.setStatus(rset.getString("status"));
+					result.add(temp);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+		
+		return result;
+	}
+
+	public OrderBean insertOrder(OrderBean bean) throws SQLException {
+		OrderBean result = null;
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(INSERT);) {
+//				stmt.setInt(1, bean.getoId());
+				stmt.setInt(1, bean.getpId());
+				stmt.setInt(2, bean.getmId());
+				Timestamp ts = new Timestamp(System.currentTimeMillis());
+				stmt.setTimestamp(3, ts);
+				stmt.setInt(4, bean.getPrice());
+				stmt.setString(5, bean.getStatus());
+
+				int i = stmt.executeUpdate();
+				if (i == 1) {
+					result = this.select_by_pid(bean.getpId());
+				}
+
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(INSERT);) {
+//				stmt.setInt(1, bean.getoId());
+				stmt.setInt(1, bean.getpId());
+				stmt.setInt(2, bean.getmId());
+				Timestamp ts = new Timestamp(System.currentTimeMillis());
+				stmt.setTimestamp(3, ts);
+				stmt.setInt(4, bean.getPrice());
+				stmt.setString(5, bean.getStatus());
+
+				int i = stmt.executeUpdate();
+				if (i == 1) {
+					result = this.select_by_pid(bean.getpId());
+				}
+
+			}
+		}
+
+		return result;
+	}
+
+	public int delete(int oId) {
+		int result = 0;
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(DELETE);) {
+				stmt.setInt(1, oId);
+				result = stmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(DELETE);) {
+				stmt.setInt(1, oId);
+				result = stmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 		return result;
 	}
 

@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 
 import model.order.OrderBean;
 import model.order.OrderDao;
+import model.order.OrderService;
 
 public class TestOrderService {
 	public static void main(String[] args) {
@@ -15,20 +16,20 @@ public class TestOrderService {
 		String user = "sa";
 		String password = "passw0rd";
 
-		OrderDao dao = new OrderDao(url + dbName, user, password);
+		OrderService service = new OrderService(url + dbName, user, password);
 
 		try {
-			OrderBean test = dao.insertOrder(
-					new OrderBean(1,1,1,new Timestamp(0),10000,"StandBy"), true);
-			System.out.println(test.toString());
-//			System.out.println(dao.delete(8, true));
-//			System.out.println(dao.select("peterchao",true).toString());
-//			System.out.println(dao.select(true).get(0).toString());
-//			System.out.println(dao.select(true).toString());
+//			OrderBean test = service.insertOrder(
+//					new OrderBean(1,1,1,new Timestamp(0),10000,"StandBy"));
+//			System.out.println(test.toString());
+//			System.out.println(service.delete(1));
+//			System.out.println(service.select(2).toString());
+//			System.out.println(service.select().get(0).toString());
+//			System.out.println(service.select().toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		dao.close();
+		service.close();
 	}
 }

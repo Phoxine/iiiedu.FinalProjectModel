@@ -15,6 +15,10 @@ public class OrderService {
 		dao = new OrderDao(dbString);
 	}	
 	
+	public OrderService(String url, String account, String password) {
+		dao = new OrderDao(url,account,password);
+	}
+	
 	public OrderBean select(int oId) {
 		return dao.select(oId);
 	}
@@ -23,11 +27,15 @@ public class OrderService {
 		return dao.select();
 	}
 
-	public OrderBean insertMember(OrderBean bean) throws SQLException {
+	public OrderBean insertOrder(OrderBean bean) throws SQLException {
 		return dao.insertOrder(bean);
 	}
 
 	public int delete(int oId) {
 		return dao.delete(oId);
+	}
+	
+	public void close() {
+		dao.close();
 	}
 }
