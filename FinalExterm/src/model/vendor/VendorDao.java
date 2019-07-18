@@ -1,10 +1,11 @@
 ﻿package model.vendor;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+
 import java.util.List;
 import java.util.Vector;
 
@@ -13,12 +14,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import java.sql.Blob;
-
 public class VendorDao {
-	
+
 	DataSource ds = null;
-	
+
 	public VendorDao() {
 		try {
 			Context context = new InitialContext();
@@ -26,7 +25,8 @@ public class VendorDao {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-	}	
+	}
+
 	public VendorDao(String dbString) {
 		try {
 			Context context = new InitialContext();
@@ -34,114 +34,247 @@ public class VendorDao {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-	}	
+	}
 
-	private static final String SELECT_BY_ID = "Select memberId, password, name, address, phone, birthday, registerdate, picture, weight from member42 where memberId = ?";
+	Connection connection = null;
 
-	public VendorBean select(String id) {
-		VendorBean result = null;
-		try(
-			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID);
-		) {
-			stmt.setString(1, id);
-			try (
-				ResultSet rset = stmt.executeQuery();					
-			){
-				if (rset.next()) {
-					result = new VendorBean();
-					result.setMemberId(rset.getString("memberid"));
-					result.setPassword(rset.getString("password"));
-					result.setName(rset.getString("name"));
-					result.setAddress(rset.getString("address"));
-					result.setPhone(rset.getString("phone"));
-					result.setBirthday(rset.getDate("birthday"));
-					result.setWeight(rset.getDouble("weight"));
-				}
+	public VendorDao(String url, String user, String password) {
+		String sqlserver_jdbcdriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+		try {
+			Class.forName(sqlserver_jdbcdriver);
+			this.connection = DriverManager.getConnection(url, user, password);
+			if (!connection.isClosed()) {
+				System.out.println("DataBase Connected");
 			}
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
+
+	}
+
+	private static final String SELECT_BY_ID = "Select vId, vname, addr,tel, email, c_person, c_tel from vendor where vId = ?";
+	private static final String SELECT_BY_VNAME = "Select vId, vname, addr,tel, email, c_person, c_tel from vendor where vname = ?";
+	private static final String SELECT_ALL = "Select vId, vname, addr,tel, email, c_person, c_tel from vendor";
+	private static final String INSERT = "Insert into vendor (vname, addr, tel, email, c_person, c_tel) values (?, ?, ?, ?, ?, ?)";
+	private static final String DELETE = "Delete from vendor where vId=?";
+
+	public VendorBean select(int vId) {
+		VendorBean result = null;
+
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(SELECT_BY_ID);) {
+				stmt.setInt(1, vId);
+				try (ResultSet rset = stmt.executeQuery();) {
+					if (rset.next()) {
+						result = new VendorBean();
+						result.setvId(rset.getInt("vId"));
+						result.setVname(rset.getString("vname"));
+						result.setAddr(rset.getString("addr"));
+						result.setTel(rset.getString("tel"));
+						result.setEmail(rset.getString("email"));
+						result.setC_person(rset.getString("c_person"));
+						result.setC_tel(rset.getString("c_tel"));
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		} else if (connection == null && ds != null) {
+			// 使用DataSource連接資料庫
+			try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID);) {
+				stmt.setInt(1, vId);
+				try (ResultSet rset = stmt.executeQuery();) {
+					if (rset.next()) {
+						result = new VendorBean();
+						result.setvId(rset.getInt("vId"));
+						result.setVname(rset.getString("vname"));
+						result.setAddr(rset.getString("addr"));
+						result.setTel(rset.getString("tel"));
+						result.setEmail(rset.getString("email"));
+						result.setC_person(rset.getString("c_person"));
+						result.setC_tel(rset.getString("c_tel"));
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 		return result;
 	}
-	
-	private static final String SELECT_ALL = "Select memberId, password, name, address, phone, birthday,registerdate ,picture ,weight from member42";
-	
+
+	public VendorBean select(String vname) {
+		VendorBean result = null;
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(SELECT_BY_VNAME);) {
+				stmt.setString(1, vname);
+				try (ResultSet rset = stmt.executeQuery();) {
+					if (rset.next()) {
+						result = new VendorBean();
+						result.setvId(rset.getInt("vId"));
+						result.setVname(rset.getString("vname"));
+						result.setAddr(rset.getString("addr"));
+						result.setTel(rset.getString("tel"));
+						result.setEmail(rset.getString("email"));
+						result.setC_person(rset.getString("c_person"));
+						result.setC_tel(rset.getString("c_tel"));
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection conn = ds.getConnection();
+					PreparedStatement stmt = conn.prepareStatement(SELECT_BY_VNAME);) {
+				stmt.setString(1, vname);
+				try (ResultSet rset = stmt.executeQuery();) {
+					if (rset.next()) {
+						result = new VendorBean();
+						result.setvId(rset.getInt("vId"));
+						result.setVname(rset.getString("vname"));
+						result.setAddr(rset.getString("addr"));
+						result.setTel(rset.getString("tel"));
+						result.setEmail(rset.getString("email"));
+						result.setC_person(rset.getString("c_person"));
+						result.setC_tel(rset.getString("c_tel"));
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+	}
+
 	public List<VendorBean> select() {
 		List<VendorBean> result = null;
-		try(
-			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(SELECT_ALL);
-			ResultSet rset = stmt.executeQuery();				
-		) {
-			result = new Vector<>();
-			while (rset.next()) {
-				VendorBean temp = new VendorBean();
-				temp.setMemberId(rset.getString("memberid"));
-				temp.setPassword(rset.getString("password"));
-				temp.setName(rset.getString("name"));
-				temp.setAddress(rset.getString("address"));
-				temp.setPhone(rset.getString("phone"));
-				temp.setBirthday(rset.getDate("birthday"));
-				temp.setWeight(rset.getDouble("weight"));
-				result.add(temp);
+
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(SELECT_ALL);
+					ResultSet rset = stmt.executeQuery();) {
+				result = new Vector<>();
+				while (rset.next()) {
+					VendorBean temp = new VendorBean();
+					temp.setvId(rset.getInt("vId"));
+					temp.setVname(rset.getString("vname"));
+					temp.setAddr(rset.getString("addr"));
+					temp.setTel(rset.getString("tel"));
+					temp.setEmail(rset.getString("email"));
+					temp.setC_person(rset.getString("c_person"));
+					temp.setC_tel(rset.getString("c_tel"));
+					result.add(temp);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection conn = ds.getConnection();
+					PreparedStatement stmt = conn.prepareStatement(SELECT_ALL);
+					ResultSet rset = stmt.executeQuery();) {
+				result = new Vector<>();
+				while (rset.next()) {
+					VendorBean temp = new VendorBean();
+					temp.setvId(rset.getInt("vId"));
+					temp.setVname(rset.getString("vname"));
+					temp.setAddr(rset.getString("addr"));
+					temp.setTel(rset.getString("tel"));
+					temp.setEmail(rset.getString("email"));
+					temp.setC_person(rset.getString("c_person"));
+					temp.setC_tel(rset.getString("c_tel"));
+					result.add(temp);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 		return result;
 	}
-
-	private static final String INSERT = "Insert into member42 (memberId, password, name, address, phone, birthday, registerdate, picture, weight) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	public VendorBean insertMember(VendorBean bean) throws SQLException {
 		VendorBean result = null;
-		try(
-			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(INSERT);
-		) {
-			stmt.setString(1, bean.getMemberId());
-			stmt.setString(2, bean.getPassword());
-			stmt.setString(3, bean.getName());
-			stmt.setString(4, bean.getAddress());
-			stmt.setString(5, bean.getPhone());
 
-			java.util.Date temp = bean.getBirthday();
-			if (temp != null) {
-				java.sql.Date someTime = new java.sql.Date(temp.getTime());
-				stmt.setDate(6, someTime);
-			} else {
-				stmt.setDate(6, null);
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(INSERT);) {
+				stmt.setString(1, bean.getVname());
+				stmt.setString(2, bean.getAddr());
+				stmt.setString(3, bean.getTel());
+				stmt.setString(4, bean.getEmail());
+				stmt.setString(5, bean.getC_person());
+				stmt.setString(6, bean.getC_tel());
+
+				int i = stmt.executeUpdate();
+				if (i == 1) {
+					result = this.select(bean.getVname());
+				}
+
 			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(INSERT);) {
+				stmt.setString(1, bean.getVname());
+				stmt.setString(2, bean.getAddr());
+				stmt.setString(3, bean.getTel());
+				stmt.setString(4, bean.getEmail());
+				stmt.setString(5, bean.getC_person());
+				stmt.setString(6, bean.getC_tel());
+				int i = stmt.executeUpdate();
+				if (i == 1) {
+					result = this.select(bean.getVname());
+				}
 
-			Timestamp ts = new Timestamp(System.currentTimeMillis());
-			stmt.setTimestamp(7, ts);
-			Blob b = null;
-			stmt.setBlob(8, b);
-			stmt.setDouble(9, bean.getWeight());
-
-			int i = stmt.executeUpdate();
-			if (i == 1) {
-				result = this.select(bean.getMemberId());
 			}
+		}
 
-		} 
 		return result;
 	}
 
-	private static final String DELETE = "Delete from member42 where memberId=?";
-
-	public int delete(String memberId) {
+	public int delete(int vId) {
 		int result = 0;
-		try(
-			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(DELETE);
-		) {
-			stmt.setString(1, memberId);
-			result = stmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(DELETE);) {
+				stmt.setInt(1, vId);
+				result = stmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(DELETE);) {
+				stmt.setInt(1, vId);
+				result = stmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+
 		return result;
 	}
+
+	public void close() {
+		if (this.connection != null) {
+			try {
+				this.connection.close();
+				System.out.println("DatabaseClose");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 }

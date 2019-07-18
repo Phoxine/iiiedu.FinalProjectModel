@@ -15,8 +15,17 @@ public class VendorService {
 		dao = new VendorDao(dbString);
 	}	
 	
-	public VendorBean select(String id) {
-		return dao.select(id);
+	public VendorService(String url, String account, String password) {
+		dao = new VendorDao(url,account,password);
+	}	
+	
+	
+	public VendorBean select(int vId) {
+		return dao.select(vId);
+	}
+	
+	public VendorBean select(String vName) {
+		return dao.select(vName);
 	}
 	
 	public List<VendorBean> select() {
@@ -27,7 +36,10 @@ public class VendorService {
 		return dao.insertMember(bean);
 	}
 
-	public int delete(String memberId) {
-		return dao.delete(memberId);
+	public int delete(int vId) {
+		return dao.delete(vId);
+	}
+	public void close() {
+		dao.close();
 	}
 }

@@ -1,116 +1,136 @@
-﻿package model.vendor; 
+﻿package model.vendor;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.math.BigDecimal;
 
 public class VendorBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String memberId;   			// 帳號
-	private String password;   			// 密碼
-	private String name;       			// 姓名
-	private String address;    			// 地址
-	private String	phone;     			// 電話
-	private java.util.Date birthday;	// 生日	
-	private java.sql.Timestamp registerDate;	// 會員登錄日期
-	private double weight;				// 體重
+
+	private int vId; // vendor id
+	private String vname; // vendor name
+	private String addr; // vendor address
+	private String tel; // vendor telephone
+	private String email; // vendor email
+	private String c_person;// contact person
+	private String c_tel; // contact phone
 	
 	public VendorBean() {
-	} 
-	
-	public VendorBean(String memberId, String name, String password, String address, String phone, Date birthday,
-			Timestamp registerDate, double weight) {
-		super();
-		this.memberId = memberId;
-		this.name = name;
-		this.password = password;
-		this.address = address;
-		this.phone = phone;
-		this.birthday = birthday;
-		this.registerDate = registerDate;
-		this.weight = weight;
-	}
-
-	public java.sql.Timestamp getRegisterDate() {
-		return registerDate;
-	}
-
-	public void setRegisterDate(java.sql.Timestamp registerdate) {
-		this.registerDate = registerdate;
+		
 	}
 	
-	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-	public static java.util.Date convertDate(String temp){
-		java.util.Date result = new java.util.Date();
-		try {
-			result=sdf.parse(temp);
-		} catch (ParseException e) {
-			result = null ; 
-			e.printStackTrace();
-		}
-		return result;
+	public VendorBean(int vId, String vname, String addr, String tel, String email, String c_person, String c_tel) {
+		this.vId = vId;
+		this.vname = vname;
+		this.addr = addr;
+		this.tel = tel;
+		this.email = email;
+		this.c_person = c_person;
+		this.c_tel = c_tel;
 	}
+
+	/**
+	 * @return the vId
+	 */
+	public int getvId() {
+		return vId;
+	}
+
+	/**
+	 * @param vId the vId to set
+	 */
+	public void setvId(int vId) {
+		this.vId = vId;
+	}
+
+	/**
+	 * @return the vname
+	 */
+	public String getVname() {
+		return vname;
+	}
+
+	/**
+	 * @param vname the vname to set
+	 */
+	public void setVname(String vname) {
+		this.vname = vname;
+	}
+
+	/**
+	 * @return the addr
+	 */
+	public String getAddr() {
+		return addr;
+	}
+
+	/**
+	 * @param addr the addr to set
+	 */
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+
+	/**
+	 * @return the tel
+	 */
+	public String getTel() {
+		return tel.toString();
+	}
+
+	/**
+	 * @param tel the tel to set
+	 */
+	public void setTel(String tel) {
+		this.tel =tel;
+	}
+
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @return the c_person
+	 */
+	public String getC_person() {
+		return c_person;
+	}
+
+	/**
+	 * @param c_person the c_person to set
+	 */
+	public void setC_person(String c_person) {
+		this.c_person = c_person;
+	}
+
+	/**
+	 * @return the c_tel
+	 */
+	public String getC_tel() {
+		return c_tel.toString();
+	}
+
+	/**
+	 * @param c_tel the c_tel to set
+	 */
 	
+
+	public void setC_tel(String c_tel) {
+		this.c_tel = c_tel;
+	}
+
 	public String toString() {
-		return "["+memberId+","+name+","+address+","+phone+","+birthday+","+weight+"]";
-	}	
-
-	public String getMemberId() {
-		return memberId;
+		return "[" + vId + "," + vname + "," + addr + "," + this.getTel() + "," + email + "," + c_person +","+this.getC_tel()+ "]";
 	}
 
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public java.util.Date getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(java.util.Date birthday) {
-		this.birthday = birthday;
-	}
-
-	public double getWeight() {
-		return weight;
-	}
-
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
 }

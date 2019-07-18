@@ -45,6 +45,11 @@ public class OrderDao {
 
 	public OrderBean select(int oId) {
 		OrderBean result = null;
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+		}
 		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID);) {
 			stmt.setInt(1, oId);
 			try (ResultSet rset = stmt.executeQuery();) {
@@ -195,7 +200,7 @@ public class OrderDao {
 
 			int i = stmt.executeUpdate();
 			if (i == 1) {
-				result = this.select(bean.getpId(),true);
+				result = this.select(bean.getpId(), true);
 			}
 
 		}
@@ -214,12 +219,14 @@ public class OrderDao {
 	}
 
 	public void close() {
-		try {
-			connection.close();
-			System.out.println("database close");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (this.connection != null) {
+			try {
+				connection.close();
+				System.out.println("database close");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -43,6 +43,11 @@ public class ProductDao {
 
 	public ProductBean select(int pId) {
 		ProductBean result = null;
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+		}
 		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID);) {
 			stmt.setInt(1, pId);
 			try (ResultSet rset = stmt.executeQuery();) {
@@ -200,7 +205,7 @@ public class ProductDao {
 
 			int i = stmt.executeUpdate();
 			if (i == 1) {
-				result = this.select(bean.getvId(),true);
+				result = this.select(bean.getvId(), true);
 			}
 
 		}
@@ -219,11 +224,13 @@ public class ProductDao {
 	}
 
 	public void close() {
-		try {
-			connection.close();
-			System.out.println("database close");
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if (this.connection != null) {
+			try {
+				connection.close();
+				System.out.println("database close");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
