@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import model.member.MemberBean;
 import model.member.MemberService;
 
-public class TestMemberDao {
+public class TestMemberService {
 	public static void main(String[] args) {
 
 		String url = "jdbc:sqlserver://localhost:1433;";

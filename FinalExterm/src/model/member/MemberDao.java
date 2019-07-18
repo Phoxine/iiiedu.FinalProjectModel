@@ -74,7 +74,7 @@ public class MemberDao {
 						result = new MemberBean();
 						result.setmId(rset.getInt("mId"));
 						result.setName(rset.getString("name"));
-						result.setTel(rset.getBigDecimal("tel"));
+						result.setTel(rset.getString("tel"));
 						result.setAddr(rset.getString("addr"));
 						// TODO 型態確認
 						result.setRdate(rset.getTimestamp("rdate"));
@@ -100,7 +100,7 @@ public class MemberDao {
 						result = new MemberBean();
 						result.setmId(rset.getInt("mId"));
 						result.setName(rset.getString("name"));
-						result.setTel(rset.getBigDecimal("tel"));
+						result.setTel(rset.getString("tel"));
 						result.setAddr(rset.getString("addr"));
 						// TODO 型態確認
 						result.setRdate(rset.getTimestamp("rdate"));
@@ -133,7 +133,7 @@ public class MemberDao {
 						result = new MemberBean();
 						result.setmId(rset.getInt("mId"));
 						result.setName(rset.getString("name"));
-						result.setTel(rset.getBigDecimal("tel"));
+						result.setTel(rset.getString("tel"));
 						result.setAddr(rset.getString("addr"));
 						// TODO 型態確認
 						result.setRdate(rset.getTimestamp("rdate"));
@@ -160,7 +160,7 @@ public class MemberDao {
 						result = new MemberBean();
 						result.setmId(rset.getInt("mId"));
 						result.setName(rset.getString("name"));
-						result.setTel(rset.getBigDecimal("tel"));
+						result.setTel(rset.getString("tel"));
 						result.setAddr(rset.getString("addr"));
 						// TODO 型態確認
 						result.setRdate(rset.getTimestamp("rdate"));
@@ -193,7 +193,7 @@ public class MemberDao {
 					MemberBean temp = new MemberBean();
 					temp.setmId(rset.getInt("mId"));
 					temp.setName(rset.getString("name"));
-					temp.setTel(rset.getBigDecimal("tel"));
+					temp.setTel(rset.getString("tel"));
 					temp.setAddr(rset.getString("addr"));
 					// TODO 型態確認
 					temp.setRdate(rset.getTimestamp("rdate"));
@@ -220,7 +220,7 @@ public class MemberDao {
 					MemberBean temp = new MemberBean();
 					temp.setmId(rset.getInt("mId"));
 					temp.setName(rset.getString("name"));
-					temp.setTel(rset.getBigDecimal("tel"));
+					temp.setTel(rset.getString("tel"));
 					temp.setAddr(rset.getString("addr"));
 					// TODO 型態確認
 					temp.setRdate(rset.getTimestamp("rdate"));
@@ -248,7 +248,7 @@ public class MemberDao {
 			// 使用DriverManager連接資料庫
 			try (PreparedStatement stmt = connection.prepareStatement(INSERT);) {
 				stmt.setString(1, bean.getName());
-				stmt.setBigDecimal(2, bean.getTel());
+				stmt.setString(2, bean.getTel());
 				stmt.setString(3, bean.getAddr());
 				Timestamp ts = new Timestamp(System.currentTimeMillis());
 				stmt.setTimestamp(4, ts);
@@ -266,7 +266,7 @@ public class MemberDao {
 			// 使用Datasource連接資料庫
 			try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(INSERT);) {
 				stmt.setString(1, bean.getName());
-				stmt.setBigDecimal(2, bean.getTel());
+				stmt.setString(2, bean.getTel());
 				stmt.setString(3, bean.getAddr());
 				Timestamp ts = new Timestamp(System.currentTimeMillis());
 				stmt.setTimestamp(4, ts);

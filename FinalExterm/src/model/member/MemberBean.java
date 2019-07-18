@@ -9,7 +9,7 @@ public class MemberBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int mId; // member id
 	private String name; // member name
-	private java.math.BigDecimal tel; // phone
+	private String tel; // phone
 	private String addr; // address
 	private java.sql.Timestamp rdate; // register date
 	private String account; // account
@@ -95,14 +95,14 @@ public class MemberBean implements Serializable {
 	/**
 	 * @return the tel
 	 */
-	public java.math.BigDecimal getTel() {
+	public String getTel() {
 		return tel;
 	}
 
 	/**
 	 * @param tel the tel to set
 	 */
-	public void setTel(java.math.BigDecimal tel) {
+	public void setTel(String tel) {
 		this.tel = tel;
 	}
 
@@ -184,7 +184,7 @@ public class MemberBean implements Serializable {
 
 		this.mId = mId;
 		this.name = name;
-		this.tel = new java.math.BigDecimal(tel);
+		this.tel = (tel);
 		this.addr = addr;
 		this.rdate = rdate;
 		this.account = account;

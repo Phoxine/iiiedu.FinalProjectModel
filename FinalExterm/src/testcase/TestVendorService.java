@@ -6,7 +6,7 @@ import model.member.MemberService;
 import model.vendor.VendorBean;
 import model.vendor.VendorService;
 
-public class TestVendorDao {
+public class TestVendorService {
 	public static void main(String[] args) {
 
 		String url = "jdbc:sqlserver://localhost:1433;";
