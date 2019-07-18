@@ -16,7 +16,7 @@ public class TestVendorService {
 		VendorService service = new VendorService(url + dbName, user, password);
 
 		try {
-//			VendorBean test = service.insertMember(
+//			VendorBean test = service.insertVendor(
 //					new VendorBean(1, "佛心公司-Garena","天龍國", "020488995", "foshigonsu@foshi.com","aaa","0204"));
 //			System.out.println(test.toString());
 //			System.out.println(service.delete(3));

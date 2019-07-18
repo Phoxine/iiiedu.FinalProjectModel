@@ -202,7 +202,7 @@ public class VendorDao {
 		return result;
 	}
 
-	public VendorBean insertMember(VendorBean bean) throws SQLException {
+	public VendorBean insertVendor(VendorBean bean) throws SQLException {
 		VendorBean result = null;
 
 		if (connection != null && ds == null) {

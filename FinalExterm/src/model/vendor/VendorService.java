@@ -32,8 +32,8 @@ public class VendorService {
 		return dao.select();
 	}
 
-	public VendorBean insertMember(VendorBean bean) throws SQLException {
-		return dao.insertMember(bean);
+	public VendorBean insertVendor(VendorBean bean) throws SQLException {
+		return dao.insertVendor(bean);
 	}
 
 	public int delete(int vId) {
