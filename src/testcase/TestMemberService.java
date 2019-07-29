@@ -2,7 +2,9 @@ package testcase;
 
 import java.sql.Timestamp;
 import model.member.MemberBean;
+import model.member.MemberDao;
 import model.member.MemberService;
+import model.member.MemberServiceImpl;
 
 public class TestMemberService {
 	public static void main(String[] args) {
@@ -11,16 +13,16 @@ public class TestMemberService {
 		String dbName = "databaseName=FinalProject;";
 		String user = "sa";
 		String password = "passw0rd";
-		MemberService service = new MemberService(url + dbName, user, password);
+		MemberService service = new MemberServiceImpl(url + dbName, user, password);
 
 		try {
-//			MemberBean test = service.insertMember(
-//					new MemberBean(1, "peterchao", "020488995", "天龍國", new Timestamp(0), "peterchao","a12345", "peterchao@gmail.com","1996-01-30",true));
-//			System.out.println(test.toString());
+			MemberBean test = service.insertMember(
+					new MemberBean(1, "peterchao", "020488995", "天龍國", new Timestamp(0), "peterchao","a12345", "peterchao@gmail.com","1996-01-30",true));
+			System.out.println(test.toString());
 //			System.out.println(service.delete(3));
-//			System.out.println(service.select("peterchao").toString());
-//			System.out.println(service.select().get(0).toString());
-//			System.out.println(service.select().toString());
+			System.out.println(service.select("peterchao").toString());
+			System.out.println(service.select().get(0).toString());
+			System.out.println(service.select().toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

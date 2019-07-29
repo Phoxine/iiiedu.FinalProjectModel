@@ -5,17 +5,17 @@ import java.sql.Timestamp;
 
 public class OrderBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int oId; // Order ID
-	private int pId; // Product ID
-	private int mId; // Memeber ID
+	private Integer oId; // Order ID
+	private Integer pId; // Product ID
+	private Integer mId; // Memeber ID
 	private Timestamp odate; // Order Date
-	private int price; // total
+	private Integer price; // total
 	private String status; // processing status
 
 	public OrderBean() {
 	}
 
-	public OrderBean(int oId, int pId, int mId, Timestamp date, int price, String status) {
+	public OrderBean(Integer oId, Integer pId, Integer mId, Timestamp date, Integer price, String status) {
 		super();
 		this.oId = oId;
 		this.pId = pId;
@@ -39,35 +39,35 @@ public class OrderBean implements Serializable {
 	/**
 	 * @param oId the oId to set
 	 */
-	public void setoId(int oId) {
+	public void setoId(Integer oId) {
 		this.oId = oId;
 	}
 
 	/**
 	 * @return the pId
 	 */
-	public int getpId() {
+	public Integer getpId() {
 		return pId;
 	}
 
 	/**
 	 * @param pId the pId to set
 	 */
-	public void setpId(int pId) {
+	public void setpId(Integer pId) {
 		this.pId = pId;
 	}
 
 	/**
 	 * @return the mId
 	 */
-	public int getmId() {
+	public Integer getmId() {
 		return mId;
 	}
 
 	/**
 	 * @param mId the mId to set
 	 */
-	public void setmId(int mId) {
+	public void setmId(Integer mId) {
 		this.mId = mId;
 	}
 
@@ -88,14 +88,14 @@ public class OrderBean implements Serializable {
 	/**
 	 * @return the price
 	 */
-	public int getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
 	/**
 	 * @param price the price to set
 	 */
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 

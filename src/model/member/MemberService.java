@@ -1,43 +1,19 @@
 package model.member;
 
-import java.sql.SQLException;
 import java.util.List;
 
-public class MemberService {
+public interface MemberService {
 
-	MemberDao dao = null;
+	MemberBean select(Integer mId);
 
-	public MemberService() {
-		dao = new MemberDao();
-	}
+	MemberBean select(String name);
 
-	public MemberService(String dbString) {
-		dao = new MemberDao(dbString);
-	}
+	List<MemberBean> select();
 
-	public MemberService(String url, String account, String password) {
-		dao = new MemberDao(url,account, password);
-	}
+	MemberBean insertMember(MemberBean bean);
 
-	public MemberBean select(int mId) {
-		return dao.select(mId);
-	}
-	public MemberBean select(String name) {
-		return dao.select(name);
-	}
-	public List<MemberBean> select() {
-		return dao.select();
-	}
+	Integer delete(Integer mId);
 
-	public MemberBean insertMember(MemberBean bean) throws SQLException {
-		return dao.insertMember(bean);
-	}
+	void close();
 
-	public int delete(int mId) {
-		return dao.delete(mId);
-	}
-	
-	public void close() {
-		dao.close();
-	}
 }

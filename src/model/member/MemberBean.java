@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 
 public class MemberBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int mId; // member id
+	private Integer mId; // member id
 	private String name; // member name
 	private String tel; // phone
 	private String addr; // address
@@ -16,13 +16,13 @@ public class MemberBean implements Serializable {
 	private String password; // password
 	private String email; // email
 	private java.sql.Timestamp birthday;// birthday
-	private boolean sex; // true = male , false = female
+	private boolean gender; // true = male , false = female
 
 	/**
 	 * @return the sex
 	 */
-	public String getSex() {
-		if(this.sex) {
+	public String getGender() {
+		if(this.gender) {
 			return "male";
 		}else {
 			return "female";
@@ -34,20 +34,20 @@ public class MemberBean implements Serializable {
 	 * @param sex the sex to set
 	 * @throws Exception 
 	 */
-	public void setSex(String sex) throws Exception {
-		if (sex.equalsIgnoreCase("MALE")) {
-			this.sex = true;
-		} else if (sex.equalsIgnoreCase("FEMALE")) {
-			this.sex = false;
+	public void setGender(String gender) throws Exception {
+		if (gender.equalsIgnoreCase("MALE")) {
+			this.gender = true;
+		} else if (gender.equalsIgnoreCase("FEMALE")) {
+			this.gender = false;
 		}else {
-			throw new Exception("Sex Data Error");
+			throw new Exception("gender Data Error");
 		}
 	}
 
 	public String toString() {
 
 		return "[" + mId + "," + name + "," + tel + "," + addr + "," + rdate + "," + account + "," + password + ","
-				+ email + "," + birthday +","+ this.getSex() +"]";
+				+ email + "," + birthday +","+ this.getGender() +"]";
 	}
 
 	/**
@@ -179,8 +179,8 @@ public class MemberBean implements Serializable {
 	public MemberBean() {
 	}
 
-	public MemberBean(int mId, String name, String tel, String addr, Timestamp rdate, String account, String password,
-			String email, String birthday, boolean sex) {
+	public MemberBean(Integer mId, String name, String tel, String addr, Timestamp rdate, String account, String password,
+			String email, String birthday, boolean gender) {
 
 		this.mId = mId;
 		this.name = name;
@@ -191,7 +191,7 @@ public class MemberBean implements Serializable {
 		this.password = password;
 		this.email = email;
 		this.birthday = new Timestamp(java.sql.Date.valueOf(birthday).getTime());
-		this.sex = sex;
+		this.gender = gender;
 	}
 
 	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

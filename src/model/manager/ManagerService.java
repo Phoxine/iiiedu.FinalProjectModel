@@ -1,43 +1,19 @@
 package model.manager;
 
-import java.sql.SQLException;
 import java.util.List;
 
-public class ManagerService {
+public interface ManagerService {
 
-	ManagerDao dao = null;
+	ManagerBean select(Integer id);
 
-	public ManagerService() {
-		dao = new ManagerDao();
-	}
+	ManagerBean select(String name);
 
-	public ManagerService(String dbString) {
-		dao = new ManagerDao(dbString);
-	}
+	List<ManagerBean> select();
 
-	public ManagerService(String url, String account, String password) {
-		dao = new ManagerDao(url,account, password);
-	}
+	ManagerBean insertManager(ManagerBean bean);
 
-	public ManagerBean select(int id) {
-		return dao.select(id);
-	}
-	public ManagerBean select(String name) {
-		return dao.select(name);
-	}
-	public List<ManagerBean> select() {
-		return dao.select();
-	}
+	int delete(Integer id);
 
-	public ManagerBean insertManager(ManagerBean bean) throws SQLException {
-		return dao.insertManager(bean);
-	}
+	void close();
 
-	public int delete(int id) {
-		return dao.delete(id);
-	}
-	
-	public void close() {
-		dao.close();
-	}
 }

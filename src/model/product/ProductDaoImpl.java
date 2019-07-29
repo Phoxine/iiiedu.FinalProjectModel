@@ -1,5 +1,6 @@
 ﻿package model.product;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,8 +15,12 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-public class ProductDaoImpl implements ProductDao {
+public class ProductDaoImpl implements ProductDao,Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	DataSource ds = null;
 
 	public ProductDaoImpl() {

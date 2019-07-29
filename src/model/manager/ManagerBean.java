@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class ManagerBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int id; // manager id
+	private Integer id; // manager id
 	private String name; // manager name
 	private String account; // manager account
 	private String password; // manager password
@@ -18,14 +18,14 @@ public class ManagerBean implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -71,7 +71,7 @@ public class ManagerBean implements Serializable {
 		this.password = password;
 	}
 
-	public ManagerBean(int id, String name, String account, String password) {
+	public ManagerBean(Integer id, String name, String account, String password) {
 		super();
 		this.id = id;
 		this.name = name;

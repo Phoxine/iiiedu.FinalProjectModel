@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import model.manager.ManagerBean;
 import model.manager.ManagerService;
+import model.manager.ManagerServiceImpl;
 
 public class TestManagerService {
 	public static void main(String[] args) {
@@ -12,7 +13,7 @@ public class TestManagerService {
 		String dbName = "databaseName=FinalProject;";
 		String user = "sa";
 		String password = "passw0rd";
-		ManagerService service = new ManagerService(url + dbName, user, password);
+		ManagerService service = new ManagerServiceImpl(url + dbName, user, password);
 
 		try {
 //			ManagerBean test = service.insertManager(

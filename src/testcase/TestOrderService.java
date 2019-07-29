@@ -5,8 +5,9 @@ import java.sql.Timestamp;
 
 
 import model.order.OrderBean;
-import model.order.OrderDao;
+import model.order.OrderDaoImpl;
 import model.order.OrderService;
+import model.order.OrderServiceImpl;
 
 public class TestOrderService {
 	public static void main(String[] args) {
@@ -16,7 +17,7 @@ public class TestOrderService {
 		String user = "sa";
 		String password = "passw0rd";
 
-		OrderService service = new OrderService(url + dbName, user, password);
+		OrderService service = new OrderServiceImpl(url + dbName, user, password);
 
 		try {
 //			OrderBean test = service.insertOrder(
