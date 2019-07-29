@@ -15,7 +15,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-public class VendorDaoIml implements Serializable, VendorDao {
+public class VendorDaoImpl implements Serializable, VendorDao {
 
 	/**
 	 * 
@@ -23,7 +23,7 @@ public class VendorDaoIml implements Serializable, VendorDao {
 	private static final long serialVersionUID = 1L;
 	DataSource ds = null;
 
-	public VendorDaoIml() {
+	public VendorDaoImpl() {
 		try {
 			Context context = new InitialContext();
 			ds = (DataSource) context.lookup("java:comp/env/jdbc/MemberDB");
@@ -33,7 +33,7 @@ public class VendorDaoIml implements Serializable, VendorDao {
 		}
 	}
 
-	public VendorDaoIml(String dbString) {
+	public VendorDaoImpl(String dbString) {
 		try {
 			Context context = new InitialContext();
 			ds = (DataSource) context.lookup(dbString);
@@ -45,7 +45,7 @@ public class VendorDaoIml implements Serializable, VendorDao {
 
 	Connection connection = null;
 
-	public VendorDaoIml(String url, String user, String password) {
+	public VendorDaoImpl(String url, String user, String password) {
 		String sqlserver_jdbcdriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 		try {
 			Class.forName(sqlserver_jdbcdriver);

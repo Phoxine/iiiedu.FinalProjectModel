@@ -8,15 +8,15 @@ public class VendorServiceImpl implements VendorService {
 	VendorDao dao = null;
 	
 	public VendorServiceImpl() {
-		dao = new VendorDaoIml();
+		dao = new VendorDaoImpl();
 	}	
 	
 	public VendorServiceImpl(String dbString) {
-		dao = new VendorDaoIml(dbString);
+		dao = new VendorDaoImpl(dbString);
 	}	
 	
 	public VendorServiceImpl(String url, String account, String password) {
-		dao = new VendorDaoIml(url,account,password);
+		dao = new VendorDaoImpl(url,account,password);
 	}	
 	
 	
