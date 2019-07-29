@@ -6,16 +6,16 @@ import java.sql.Timestamp;
 public class ProductBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int pId;					//product id
+	private Integer pId;					//product id
 	private String pname;				//product name
-	private int price;					//product price
-	private int vId;					//vendor id
-	private int amount;					//amount
+	private Integer price;					//product price
+	private Integer vId;					//vendor id
+	private Integer amount;					//amount
 	private String category;			//category
 	private java.sql.Timestamp sdate;	//storage date
 	private java.sql.Timestamp expdate; //expired date
 	
-	public ProductBean(int pId, String pname, int price, int vId, int amount, String category, String sdate,
+	public ProductBean(Integer pId, String pname, Integer price, Integer vId, Integer amount, String category, String sdate,
 			String expdate) {
 		this.pId = pId;
 		this.pname = pname;
@@ -39,13 +39,13 @@ public class ProductBean implements Serializable {
 	/**
 	 * @return the pId
 	 */
-	public int getpId() {
+	public Integer getpId() {
 		return pId;
 	}
 	/**
 	 * @param pId the pId to set
 	 */
-	public void setpId(int pId) {
+	public void setpId(Integer pId) {
 		this.pId = pId;
 	}
 	/**
@@ -63,37 +63,37 @@ public class ProductBean implements Serializable {
 	/**
 	 * @return the price
 	 */
-	public int getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 	/**
 	 * @param price the price to set
 	 */
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 	/**
 	 * @return the vId
 	 */
-	public int getvId() {
+	public Integer getvId() {
 		return vId;
 	}
 	/**
 	 * @param vId the vId to set
 	 */
-	public void setvId(int vId) {
+	public void setvId(Integer vId) {
 		this.vId = vId;
 	}
 	/**
 	 * @return the amount
 	 */
-	public int getAmount() {
+	public Integer getAmount() {
 		return amount;
 	}
 	/**
 	 * @param amount the amount to set
 	 */
-	public void setAmount(int amount) {
+	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
 	/**
