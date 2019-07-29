@@ -66,6 +66,7 @@ public class ManagerDaoImpl implements ManagerDao {
 	private static final String SELECT_ALL = "Select id, name, account, password from manager";
 	private static final String INSERT = "Insert into manager ( name,account, password) values (?, ?, ?)";
 	private static final String DELETE = "Delete from manager where id=?";
+	private static final String COUNT = "SELECT count(*) FROM manager";
 
 	@Override
 	public ManagerBean select(Integer id) {
@@ -73,7 +74,7 @@ public class ManagerDaoImpl implements ManagerDao {
 		if (connection != null && ds == null) {
 			// 使用DriverManager連接資料庫
 			try (PreparedStatement stmt = connection.prepareStatement(SELECT_BY_ID);) {
-				stmt.setInt(1,id);
+				stmt.setInt(1, id);
 				try (ResultSet rset = stmt.executeQuery();) {
 					if (rset.next()) {
 						result = new ManagerBean();
@@ -93,7 +94,7 @@ public class ManagerDaoImpl implements ManagerDao {
 		} else if (connection == null && ds != null) {
 			// 使用Datasource連接資料庫
 			try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID);) {
-				stmt.setInt(1,id);
+				stmt.setInt(1, id);
 				try (ResultSet rset = stmt.executeQuery();) {
 					if (rset.next()) {
 						result = new ManagerBean();
@@ -214,7 +215,7 @@ public class ManagerDaoImpl implements ManagerDao {
 	}
 
 	@Override
-	public ManagerBean insertManager(ManagerBean bean){
+	public ManagerBean insertManager(ManagerBean bean) {
 		ManagerBean result = null;
 		if (connection != null && ds == null) {
 			// 使用DriverManager連接資料庫
@@ -285,6 +286,36 @@ public class ManagerDaoImpl implements ManagerDao {
 				throw new RuntimeException("Manager()#close()發生例外: " + e.getMessage());
 			}
 		}
+	}
+
+	@Override
+	public long getRecordCounts() {
+		long count = 0; // 必須使用 long 型態
+
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(COUNT); ResultSet rs = stmt.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getLong(1);
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("Manager()#getRecordCounts()發生例外: " + ex.getMessage());
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection connection = ds.getConnection();
+					PreparedStatement ps = connection.prepareStatement(COUNT);
+					ResultSet rs = ps.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getLong(1);
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("Manager()#getRecordCounts()發生例外: " + ex.getMessage());
+			}
+		}
+		return count;
 	}
 
 }

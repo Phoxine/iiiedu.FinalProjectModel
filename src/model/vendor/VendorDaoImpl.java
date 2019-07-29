@@ -70,6 +70,7 @@ public class VendorDaoImpl implements Serializable, VendorDao {
 	private static final String SELECT_ALL = "Select vId, vname, addr,tel, email, c_person, c_tel from vendor";
 	private static final String INSERT = "Insert into vendor (vname, addr, tel, email, c_person, c_tel) values (?, ?, ?, ?, ?, ?)";
 	private static final String DELETE = "Delete from vendor where vId=?";
+	private static final String COUNT = "SELECT count(*) FROM vendor";
 
 	@Override
 	public VendorBean select(Integer vId) {
@@ -305,6 +306,37 @@ public class VendorDaoImpl implements Serializable, VendorDao {
 				throw new RuntimeException("VendorDao()#close()發生例外: " + e.getMessage());
 			}
 		}
+	}
+
+	@Override
+	public long getRecordCounts() {
+		long count = 0; // 必須使用 long 型態
+
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(COUNT); ResultSet rs = stmt.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getLong(1);
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("Vendor()#getRecordCounts()發生例外: " + ex.getMessage());
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection connection = ds.getConnection();
+					PreparedStatement ps = connection.prepareStatement(COUNT);
+					ResultSet rs = ps.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getLong(1);
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("Vendor()#getRecordCounts()發生例外: " + ex.getMessage());
+			}
+		}
+
+		return count;
 	}
 
 }

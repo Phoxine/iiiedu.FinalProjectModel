@@ -72,6 +72,7 @@ public class ProductDaoImpl implements ProductDao,Serializable {
 	private static final String SELECT_ALL = "Select pId, pname, price, vId, amount, category, sdate, expdate from product";
 	private static final String INSERT = "Insert into product (pname, price, vId, amount, category, sdate, expdate) values (?, ?, ?, ?, ?, ?, ?)";
 	private static final String DELETE = "Delete from product where pId=?";
+	private static final String COUNT = "SELECT count(*) FROM product";
 
 	@Override
 	public ProductBean select(Integer pId) {
@@ -310,6 +311,36 @@ public class ProductDaoImpl implements ProductDao,Serializable {
 				throw new RuntimeException("ProductDao()#close()發生例外: " + e.getMessage());
 			}
 		}
+	}
+
+	@Override
+	public long getRecordCounts() {
+		long count = 0; // 必須使用 long 型態
+		
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(COUNT); ResultSet rs = stmt.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getLong(1);
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("Product()#getRecordCounts()發生例外: " + ex.getMessage());
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection connection = ds.getConnection();
+					PreparedStatement ps = connection.prepareStatement(COUNT);
+					ResultSet rs = ps.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getLong(1);
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("Product()#getRecordCounts()發生例外: " + ex.getMessage());
+			}
+		}
+		return count;
 	}
 
 }

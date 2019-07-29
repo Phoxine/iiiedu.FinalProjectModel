@@ -14,6 +14,8 @@ public interface ProductService {
 
 	Integer delete(Integer pId);
 
+	long getRecordCounts();
+	
 	void close();
 
 }

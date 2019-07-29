@@ -35,6 +35,11 @@ public class ManagerServiceImpl implements ManagerService {
 	public ManagerBean insertManager(ManagerBean bean){
 		return dao.insertManager(bean);
 	}
+	
+	@Override
+	public long getRecordCounts() {
+		return dao.getRecordCounts();
+	}
 
 	@Override
 	public int delete(Integer id) {
@@ -45,4 +50,6 @@ public class ManagerServiceImpl implements ManagerService {
 	public void close() {
 		dao.close();
 	}
+
+
 }

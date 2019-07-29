@@ -14,6 +14,8 @@ public interface MemberService {
 
 	Integer delete(Integer mId);
 
+	long getRecordCounts();
+	
 	void close();
 
 }

@@ -13,6 +13,9 @@ public interface OrderService {
 
 	Integer delete(Integer oId);
 
+	
+	long getRecordCounts();
+	
 	void close();
 
 }

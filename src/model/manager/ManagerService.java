@@ -14,6 +14,8 @@ public interface ManagerService {
 
 	int delete(Integer id);
 
+	long getRecordCounts();
+	
 	void close();
 
 }

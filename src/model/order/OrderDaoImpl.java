@@ -70,6 +70,7 @@ public class OrderDaoImpl implements Serializable, OrderDao {
 	private static final String DELETE = "Delete from ordertable where oId=?";
 	private static final String SELECT_BY_ID = "Select oId, pId, mId, odate, price, status from ordertable where oId = ?";
 	private static final String SELECT_BY_PID = "Select oId, pId, mId, odate, price, status from ordertable where pId = ?";
+	private static final String COUNT = "SELECT count(*) FROM ordertable";
 
 	@Override
 	public OrderBean select(Integer oId) {
@@ -296,6 +297,36 @@ public class OrderDaoImpl implements Serializable, OrderDao {
 				throw new RuntimeException("OrderDao()#close()發生例外: " + e.getMessage());
 			}
 		}
+	}
+
+	@Override
+	public long getRecordCounts() {
+		long count = 0; // 必須使用 long 型態
+
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(COUNT); ResultSet rs = stmt.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getLong(1);
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("Order()#getRecordCounts()發生例外: " + ex.getMessage());
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection connection = ds.getConnection();
+					PreparedStatement ps = connection.prepareStatement(COUNT);
+					ResultSet rs = ps.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getLong(1);
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("Order()#getRecordCounts()發生例外: " + ex.getMessage());
+			}
+		}
+		return count;
 	}
 
 }

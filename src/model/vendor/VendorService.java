@@ -14,6 +14,8 @@ public interface VendorService {
 
 	Integer delete(Integer vId);
 
+	long getRecordCounts();
+	
 	void close();
 
 }

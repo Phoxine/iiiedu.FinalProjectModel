@@ -14,6 +14,8 @@ public interface MemberDao {
 
 	Integer delete(Integer mId);
 
+	long getRecordCounts();
+	
 	void close();
 
 }

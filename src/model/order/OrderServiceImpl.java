@@ -35,6 +35,11 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public long getRecordCounts() {
+		return dao.getRecordCounts();
+	}
+	
+	@Override
 	public Integer delete(Integer oId) {
 		return dao.delete(oId);
 	}

@@ -23,6 +23,7 @@ public class TestManagerService {
 			System.out.println(service.select("peterchao").toString());
 			System.out.println(service.select().get(0).toString());
 			System.out.println(service.select().toString());
+			System.out.println(service.getRecordCounts());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

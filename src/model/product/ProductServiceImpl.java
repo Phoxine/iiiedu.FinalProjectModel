@@ -38,6 +38,11 @@ public class ProductServiceImpl implements ProductService {
 	public ProductBean insertProduct(ProductBean bean){
 		return dao.insertProduct(bean);
 	}
+	
+	@Override
+	public long getRecordCounts() {
+		return dao.getRecordCounts();
+	}
 
 	@Override
 	public Integer delete(Integer pId) {

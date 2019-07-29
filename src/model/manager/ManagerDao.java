@@ -14,6 +14,8 @@ public interface ManagerDao {
 
 	Integer delete(Integer id);
 
+	long getRecordCounts();
+	
 	void close();
 
 }

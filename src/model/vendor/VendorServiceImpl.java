@@ -41,6 +41,11 @@ public class VendorServiceImpl implements VendorService {
 	}
 
 	@Override
+	public long getRecordCounts() {
+		return dao.getRecordCounts();
+	}
+	
+	@Override
 	public Integer delete(Integer vId) {
 		return dao.delete(vId);
 	}

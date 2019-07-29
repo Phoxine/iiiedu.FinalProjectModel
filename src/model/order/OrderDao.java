@@ -14,6 +14,8 @@ public interface OrderDao {
 
 	Integer delete(Integer oId);
 
+	long getRecordCounts();
+	
 	void close();
 
 }

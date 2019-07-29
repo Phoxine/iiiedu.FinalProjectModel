@@ -66,6 +66,7 @@ public class MemberDaoImpl implements MemberDao {
 	private static final String SELECT_ALL = "Select mId, name, tel, addr, rdate, account, password, email , birthday,gender from member";
 	private static final String INSERT = "Insert into member ( name, tel, addr, rdate, account, password, email, birthday,gender) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String DELETE = "Delete from member where mId=?";
+	private static final String COUNT = "SELECT count(*) FROM member";
 
 	@Override
 	public MemberBean select(Integer mId) {
@@ -341,6 +342,36 @@ public class MemberDaoImpl implements MemberDao {
 				throw new RuntimeException("MemberDao()#close()發生例外: " + e.getMessage());
 			}
 		}
+	}
+
+	@Override
+	public long getRecordCounts() {
+		long count = 0; // 必須使用 long 型態
+
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(COUNT); ResultSet rs = stmt.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getLong(1);
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("Member()#getRecordCounts()發生例外: " + ex.getMessage());
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection connection = ds.getConnection();
+					PreparedStatement ps = connection.prepareStatement(COUNT);
+					ResultSet rs = ps.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getLong(1);
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("Member()#getRecordCounts()發生例外: " + ex.getMessage());
+			}
+		}
+		return count;
 	}
 
 }

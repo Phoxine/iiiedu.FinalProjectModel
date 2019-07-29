@@ -13,6 +13,8 @@ public interface ProductDao {
 	ProductBean insertProduct(ProductBean bean);
 
 	Integer delete(Integer pId);
+	
+	long getRecordCounts();
 
 	void close();
 

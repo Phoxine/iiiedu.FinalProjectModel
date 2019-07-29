@@ -13,7 +13,9 @@ public interface VendorDao {
 	VendorBean insertVendor(VendorBean bean);
 
 	Integer delete(Integer vId);
-
+	
+	long getRecordCounts();
+	
 	void close();
 
 }
