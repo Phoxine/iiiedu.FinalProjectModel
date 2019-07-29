@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 public class VendorBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int vId; // vendor id
+	private Integer vId; // vendor id
 	private String vname; // vendor name
 	private String addr; // vendor address
 	private String tel; // vendor telephone
@@ -18,7 +18,7 @@ public class VendorBean implements Serializable {
 		
 	}
 	
-	public VendorBean(int vId, String vname, String addr, String tel, String email, String c_person, String c_tel) {
+	public VendorBean(Integer vId, String vname, String addr, String tel, String email, String c_person, String c_tel) {
 		this.vId = vId;
 		this.vname = vname;
 		this.addr = addr;
@@ -31,14 +31,14 @@ public class VendorBean implements Serializable {
 	/**
 	 * @return the vId
 	 */
-	public int getvId() {
+	public Integer getvId() {
 		return vId;
 	}
 
 	/**
 	 * @param vId the vId to set
 	 */
-	public void setvId(int vId) {
+	public void setvId(Integer vId) {
 		this.vId = vId;
 	}
 

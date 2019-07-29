@@ -1,10 +1,9 @@
 package testcase;
 
-import java.sql.Timestamp;
-import model.member.MemberBean;
-import model.member.MemberService;
+
 import model.vendor.VendorBean;
 import model.vendor.VendorService;
+import model.vendor.VendorServiceImpl;
 
 public class TestVendorService {
 	public static void main(String[] args) {
@@ -13,7 +12,7 @@ public class TestVendorService {
 		String dbName = "databaseName=FinalProject;";
 		String user = "sa";
 		String password = "passw0rd";
-		VendorService service = new VendorService(url + dbName, user, password);
+		VendorService service = new VendorServiceImpl(url + dbName, user, password);
 
 		try {
 //			VendorBean test = service.insertVendor(
