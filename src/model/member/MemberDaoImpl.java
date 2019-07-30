@@ -61,12 +61,14 @@ public class MemberDaoImpl implements MemberDao {
 
 	}
 
-	private static final String SELECT_BY_ID = "Select mId, name, tel, addr, rdate, account, password, email,birthday,gender from member where mId = ?";
-	private static final String SELECT_BY_NAME = "Select mId, name, tel, addr, rdate, account, password, email, birthday,gender from member where name = ?";
-	private static final String SELECT_ALL = "Select mId, name, tel, addr, rdate, account, password, email , birthday,gender from member";
+	private static final String SELECT_BY_ID = "Select mId, name, tel, addr, rdate, account, password, email,birthday,gender,memberImage from member where mId = ?";
+	private static final String SELECT_BY_NAME = "Select mId, name, tel, addr, rdate, account, password, email, birthday,gender,memberImage from member where name = ?";
+	private static final String SELECT_ALL = "Select mId, name, tel, addr, rdate, account, password, email , birthday,gender,memberImage from member";
 	private static final String INSERT = "Insert into member ( name, tel, addr, rdate, account, password, email, birthday,gender) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_WITH_MEMBERIMAGE = "Insert into member ( name, tel, addr, rdate, account, password, email, birthday, gender, memberImage) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String DELETE = "Delete from member where mId=?";
 	private static final String COUNT = "SELECT count(*) FROM member";
+	private static final String CHECK_ACCOUNT_PASSWORD = "SELECT * FROM Member m WHERE m.account = ? and m.password = ?";
 
 	@Override
 	public MemberBean select(Integer mId) {
@@ -214,6 +216,7 @@ public class MemberDaoImpl implements MemberDao {
 					temp.setEmail(rset.getString("email"));
 					temp.setBirthday(rset.getTimestamp("birthday"));
 					temp.setGender(rset.getString("gender"));
+					temp.setMemberImage(rset.getBlob("memberImage"));
 					result.add(temp);
 				}
 			} catch (SQLException e) {
@@ -272,6 +275,56 @@ public class MemberDaoImpl implements MemberDao {
 				stmt.setString(7, bean.getEmail());
 				stmt.setTimestamp(8, bean.getBirthday());
 				stmt.setString(9, bean.getGender());
+				int i = stmt.executeUpdate();
+				if (i == 1) {
+					result = this.select(bean.getName());
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException("MemberDao()#insertMember()發生例外: " + e.getMessage());
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(INSERT);) {
+				stmt.setString(1, bean.getName());
+				stmt.setString(2, bean.getTel());
+				stmt.setString(3, bean.getAddr());
+				Timestamp ts = new Timestamp(System.currentTimeMillis());
+				stmt.setTimestamp(4, ts);
+				stmt.setString(5, bean.getAccount());
+				stmt.setString(6, bean.getPassword());
+				stmt.setString(7, bean.getEmail());
+				stmt.setTimestamp(8, bean.getBirthday());
+				stmt.setString(9, bean.getGender());
+				int i = stmt.executeUpdate();
+				if (i == 1) {
+					result = this.select(bean.getName());
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException("MemberDao()#insertMember()發生例外: " + e.getMessage());
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public MemberBean insertMember_With_memberImage(MemberBean bean) {
+		MemberBean result = null;
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(INSERT_WITH_MEMBERIMAGE);) {
+				stmt.setString(1, bean.getName());
+				stmt.setString(2, bean.getTel());
+				stmt.setString(3, bean.getAddr());
+				Timestamp ts = new Timestamp(System.currentTimeMillis());
+				stmt.setTimestamp(4, ts);
+				stmt.setString(5, bean.getAccount());
+				stmt.setString(6, bean.getPassword());
+				stmt.setString(7, bean.getEmail());
+				stmt.setTimestamp(8, bean.getBirthday());
+				stmt.setString(9, bean.getGender());
+				stmt.setBinaryStream(10, bean.getMemberImage().getBinaryStream());
 				int i = stmt.executeUpdate();
 				if (i == 1) {
 					result = this.select(bean.getName());
@@ -372,6 +425,75 @@ public class MemberDaoImpl implements MemberDao {
 			}
 		}
 		return count;
+	}
+
+	// 檢查使用者在登入時輸入的帳號與密碼是否正確。如果正確，傳回該帳號所對應的MemberBean物件，
+	// 否則傳回 null。
+	@Override
+	public MemberBean checkAccountPassword(String userAccount, String password) {
+
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(CHECK_ACCOUNT_PASSWORD);) {
+				stmt.setString(1, userAccount);
+				stmt.setString(2, password);
+				try (ResultSet rset = stmt.executeQuery();) {
+					if (rset.next()) {
+						MemberBean temp = new MemberBean();
+						temp.setmId(rset.getInt("mId"));
+						temp.setName(rset.getString("name"));
+						temp.setTel(rset.getString("tel"));
+						temp.setAddr(rset.getString("addr"));
+						temp.setRdate(rset.getTimestamp("rdate"));
+						temp.setAccount(rset.getString("account"));
+						temp.setPassword(rset.getString("password"));
+						temp.setEmail(rset.getString("email"));
+						temp.setBirthday(rset.getTimestamp("birthday"));
+						temp.setGender(rset.getString("gender"));
+						temp.setMemberImage(rset.getBlob("memberImage"));
+						return temp;
+					}
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("MemberDaoImpl類別#checkIDPassword()發生SQL例外: " + ex.getMessage());
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("MemberDaoImpl類別#checkIDPassword()發生SQL例外: " + e.getMessage());
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection connection = ds.getConnection();
+					PreparedStatement stmt = connection.prepareStatement(CHECK_ACCOUNT_PASSWORD);) {
+				stmt.setString(1, userAccount);
+				stmt.setString(2, password);
+				try (ResultSet rset = stmt.executeQuery();) {
+					if (rset.next()) {
+						MemberBean temp = new MemberBean();
+						temp.setmId(rset.getInt("mId"));
+						temp.setName(rset.getString("name"));
+						temp.setTel(rset.getString("tel"));
+						temp.setAddr(rset.getString("addr"));
+						temp.setRdate(rset.getTimestamp("rdate"));
+						temp.setAccount(rset.getString("account"));
+						temp.setPassword(rset.getString("password"));
+						temp.setEmail(rset.getString("email"));
+						temp.setBirthday(rset.getTimestamp("birthday"));
+						temp.setGender(rset.getString("gender"));
+						temp.setMemberImage(rset.getBlob("memberImage"));
+						return temp;
+					}
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("MemberDaoImpl類別#checkIDPassword()發生SQL例外: " + ex.getMessage());
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("MemberDaoImpl類別#checkIDPassword()發生SQL例外: " + e.getMessage());
+			}
+
+		}
+		return null;
 	}
 
 }

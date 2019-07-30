@@ -16,6 +16,9 @@ public interface MemberService {
 
 	long getRecordCounts();
 	
+
 	void close();
+
+	MemberBean checkAccountPassword(String userId, String password);
 
 }

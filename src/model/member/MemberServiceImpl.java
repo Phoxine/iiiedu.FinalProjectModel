@@ -42,6 +42,11 @@ public class MemberServiceImpl implements MemberService {
 	public long getRecordCounts() {
 		return dao.getRecordCounts();
 	}
+	
+	@Override
+	public MemberBean checkAccountPassword(String userAccount, String password) {
+		return dao.checkAccountPassword(userAccount, password);
+	}
 
 	@Override
 	public Integer delete(Integer mId) {
@@ -52,5 +57,7 @@ public class MemberServiceImpl implements MemberService {
 	public void close() {
 		dao.close();
 	}
+
+
 
 }

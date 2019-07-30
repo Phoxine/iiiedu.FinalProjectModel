@@ -1,5 +1,6 @@
 package testcase;
 
+import java.sql.Blob;
 import java.sql.Timestamp;
 import model.member.MemberBean;
 import model.member.MemberDao;
@@ -23,7 +24,9 @@ public class TestMemberService {
 //			System.out.println(service.select("peterchao").toString());
 //			System.out.println(service.select().get(0).toString());
 //			System.out.println(service.select().toString());
-			System.out.println(service.getRecordCounts());
+//			System.out.println(service.getRecordCounts());
+			System.out.println(service.checkAccountPassword("peterchao", "aaaaa"));
+			System.out.println(service.checkAccountPassword("peterchao", "a12345").toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -11,11 +11,19 @@ public interface MemberDao {
 	List<MemberBean> select();
 
 	MemberBean insertMember(MemberBean bean);
+	
+	MemberBean insertMember_With_memberImage(MemberBean bean);
 
+	MemberBean checkAccountPassword(String userAccount, String password);
+	
 	Integer delete(Integer mId);
 
 	long getRecordCounts();
 	
 	void close();
+
+
+
+
 
 }

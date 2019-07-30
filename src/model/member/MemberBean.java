@@ -1,6 +1,7 @@
 ﻿package model.member;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,29 +18,26 @@ public class MemberBean implements Serializable {
 	private String email; // email
 	private java.sql.Timestamp birthday;// birthday
 	private boolean gender; // true = male , false = female
+	private Blob memberImage; // member photo
 
 	/**
 	 * @return the sex
 	 */
 	public String getGender() {
-		if(this.gender) {
+		if (this.gender) {
 			return "male";
-		}else {
+		} else {
 			return "female";
 		}
-		
+
 	}
 
-	/**
-	 * @param sex the sex to set
-	 * @throws Exception 
-	 */
 	public void setGender(String gender) throws Exception {
 		if (gender.equalsIgnoreCase("MALE")) {
 			this.gender = true;
 		} else if (gender.equalsIgnoreCase("FEMALE")) {
 			this.gender = false;
-		}else {
+		} else {
 			throw new Exception("gender Data Error");
 		}
 	}
@@ -47,7 +45,7 @@ public class MemberBean implements Serializable {
 	public String toString() {
 
 		return "[" + mId + "," + name + "," + tel + "," + addr + "," + rdate + "," + account + "," + password + ","
-				+ email + "," + birthday +","+ this.getGender() +"]";
+				+ email + "," + birthday + "," + this.getGender() + "," + memberImage + "]";
 	}
 
 	/**
@@ -176,11 +174,19 @@ public class MemberBean implements Serializable {
 		this.email = email;
 	}
 
+	/*
+	 * default constructor
+	 */
+
 	public MemberBean() {
 	}
 
-	public MemberBean(Integer mId, String name, String tel, String addr, Timestamp rdate, String account, String password,
-			String email, String birthday, boolean gender) {
+	/*
+	 * constructor without memberImage
+	 */
+
+	public MemberBean(Integer mId, String name, String tel, String addr, Timestamp rdate, String account,
+			String password, String email, String birthday, boolean gender) {
 
 		this.mId = mId;
 		this.name = name;
@@ -192,6 +198,27 @@ public class MemberBean implements Serializable {
 		this.email = email;
 		this.birthday = new Timestamp(java.sql.Date.valueOf(birthday).getTime());
 		this.gender = gender;
+
+	}
+
+	/*
+	 * contructor with memberImage
+	 */
+
+	public MemberBean(Integer mId, String name, String tel, String addr, Timestamp rdate, String account,
+			String password, String email, String birthday, boolean gender, Blob memberImage) {
+
+		this.mId = mId;
+		this.name = name;
+		this.tel = (tel);
+		this.addr = addr;
+		this.rdate = rdate;
+		this.account = account;
+		this.password = password;
+		this.email = email;
+		this.birthday = new Timestamp(java.sql.Date.valueOf(birthday).getTime());
+		this.gender = gender;
+		this.memberImage = memberImage;
 	}
 
 	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -205,6 +232,20 @@ public class MemberBean implements Serializable {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	/**
+	 * @return the memberImage
+	 */
+	public Blob getMemberImage() {
+		return memberImage;
+	}
+
+	/**
+	 * @param memberImage the memberImage to set
+	 */
+	public void setMemberImage(Blob memberImage) {
+		this.memberImage = memberImage;
 	}
 
 }
