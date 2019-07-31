@@ -58,6 +58,11 @@ public class MemberServiceImpl implements MemberService {
 		dao.close();
 	}
 
+	@Override
+	public MemberBean checkPhonePassword(String phone, String password) {
+		return dao.checkPhonePassword(phone, password);
+	}
+
 
 
 }

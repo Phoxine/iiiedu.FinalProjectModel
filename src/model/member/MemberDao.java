@@ -16,6 +16,8 @@ public interface MemberDao {
 
 	MemberBean checkAccountPassword(String userAccount, String password);
 	
+	MemberBean checkPhonePassword(String phone, String password);
+	
 	Integer delete(Integer mId);
 
 	long getRecordCounts();

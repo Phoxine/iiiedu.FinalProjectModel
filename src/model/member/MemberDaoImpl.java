@@ -69,6 +69,7 @@ public class MemberDaoImpl implements MemberDao {
 	private static final String DELETE = "Delete from member where mId=?";
 	private static final String COUNT = "SELECT count(*) FROM member";
 	private static final String CHECK_ACCOUNT_PASSWORD = "SELECT * FROM Member m WHERE m.account = ? and m.password = ?";
+	private static final String CHECK_PHONE_PASSWORD = "SELECT * FROM Member m WHERE m.tel = ? and m.password = ?";
 
 	@Override
 	public MemberBean select(Integer mId) {
@@ -493,6 +494,75 @@ public class MemberDaoImpl implements MemberDao {
 			}
 
 		}
+		return null;
+	}
+
+	@Override
+	public MemberBean checkPhonePassword(String phone, String password) {
+		
+		
+		if (connection != null && ds == null) {
+			// 使用DriverManager連接資料庫
+			try (PreparedStatement stmt = connection.prepareStatement(CHECK_PHONE_PASSWORD);) {
+				stmt.setString(1, phone);
+				stmt.setString(2, password);
+				try (ResultSet rset = stmt.executeQuery();) {
+					if (rset.next()) {
+						MemberBean temp = new MemberBean();
+						temp.setmId(rset.getInt("mId"));
+						temp.setName(rset.getString("name"));
+						temp.setTel(rset.getString("tel"));
+						temp.setAddr(rset.getString("addr"));
+						temp.setRdate(rset.getTimestamp("rdate"));
+						temp.setAccount(rset.getString("account"));
+						temp.setPassword(rset.getString("password"));
+						temp.setEmail(rset.getString("email"));
+						temp.setBirthday(rset.getTimestamp("birthday"));
+						temp.setGender(rset.getString("gender"));
+						temp.setMemberImage(rset.getBlob("memberImage"));
+						return temp;
+					}
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("MemberDaoImpl類別#checkPhonePassword()發生SQL例外: " + ex.getMessage());
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("MemberDaoImpl類別#checkPhonePassword()發生SQL例外: " + e.getMessage());
+			}
+		} else if (connection == null && ds != null) {
+			// 使用Datasource連接資料庫
+			try (Connection connection = ds.getConnection();
+					PreparedStatement stmt = connection.prepareStatement(CHECK_PHONE_PASSWORD);) {
+				stmt.setString(1, phone);
+				stmt.setString(2, password);
+				try (ResultSet rset = stmt.executeQuery();) {
+					if (rset.next()) {
+						MemberBean temp = new MemberBean();
+						temp.setmId(rset.getInt("mId"));
+						temp.setName(rset.getString("name"));
+						temp.setTel(rset.getString("tel"));
+						temp.setAddr(rset.getString("addr"));
+						temp.setRdate(rset.getTimestamp("rdate"));
+						temp.setAccount(rset.getString("account"));
+						temp.setPassword(rset.getString("password"));
+						temp.setEmail(rset.getString("email"));
+						temp.setBirthday(rset.getTimestamp("birthday"));
+						temp.setGender(rset.getString("gender"));
+						temp.setMemberImage(rset.getBlob("memberImage"));
+						return temp;
+					}
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("MemberDaoImpl類別#checkPhonePassword()發生SQL例外: " + ex.getMessage());
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("MemberDaoImpl類別#checkPhonePassword()發生SQL例外: " + e.getMessage());
+			}
+
+		}
+		
 		return null;
 	}
 

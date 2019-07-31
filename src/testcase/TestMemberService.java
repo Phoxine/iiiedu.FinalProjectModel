@@ -23,10 +23,12 @@ public class TestMemberService {
 //			System.out.println(service.delete(3));
 //			System.out.println(service.select("peterchao").toString());
 //			System.out.println(service.select().get(0).toString());
-//			System.out.println(service.select().toString());
+			System.out.println(service.select().toString());
 //			System.out.println(service.getRecordCounts());
-			System.out.println(service.checkAccountPassword("peterchao", "aaaaa"));
-			System.out.println(service.checkAccountPassword("peterchao", "a12345").toString());
+//			System.out.println(service.checkAccountPassword("peterchao", "aaaaa"));
+//			System.out.println(service.checkAccountPassword("peterchao", "a12345").toString());
+			System.out.println(service.checkPhonePassword("020488995", "a123452"));
+			System.out.println(service.checkPhonePassword("020488995", "a12345"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

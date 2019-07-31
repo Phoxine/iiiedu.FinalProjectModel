@@ -20,5 +20,7 @@ public interface MemberService {
 	void close();
 
 	MemberBean checkAccountPassword(String userId, String password);
+	
+	MemberBean checkPhonePassword(String phone, String password);
 
 }
