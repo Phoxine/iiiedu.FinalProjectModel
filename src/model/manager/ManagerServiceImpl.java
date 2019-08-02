@@ -32,7 +32,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public ManagerBean insertManager(ManagerBean bean){
+	public int insertManager(ManagerBean bean){
 		return dao.insertManager(bean);
 	}
 	

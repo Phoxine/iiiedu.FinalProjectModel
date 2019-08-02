@@ -10,12 +10,12 @@ public interface ManagerDao {
 
 	List<ManagerBean> select();
 
-	ManagerBean insertManager(ManagerBean bean);
+	int insertManager(ManagerBean bean);
 
 	Integer delete(Integer id);
 
 	long getRecordCounts();
-	
+
 	void close();
 
 }

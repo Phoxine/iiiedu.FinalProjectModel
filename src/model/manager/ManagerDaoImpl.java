@@ -215,8 +215,8 @@ public class ManagerDaoImpl implements ManagerDao {
 	}
 
 	@Override
-	public ManagerBean insertManager(ManagerBean bean) {
-		ManagerBean result = null;
+	public int insertManager(ManagerBean bean) {
+		int n = 0;
 		if (connection != null && ds == null) {
 			// 使用DriverManager連接資料庫
 			try (PreparedStatement stmt = connection.prepareStatement(INSERT);) {
@@ -225,7 +225,8 @@ public class ManagerDaoImpl implements ManagerDao {
 				stmt.setString(3, bean.getPassword());
 				int i = stmt.executeUpdate();
 				if (i == 1) {
-					result = this.select(bean.getName());
+					this.select(bean.getName());
+					n++;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -239,14 +240,15 @@ public class ManagerDaoImpl implements ManagerDao {
 				stmt.setString(3, bean.getPassword());
 				int i = stmt.executeUpdate();
 				if (i == 1) {
-					result = this.select(bean.getName());
+					this.select(bean.getName());
+					n++;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new RuntimeException("Manager()#insertManager()發生例外: " + e.getMessage());
 			}
 		}
-		return result;
+		return n;
 	}
 
 	@Override

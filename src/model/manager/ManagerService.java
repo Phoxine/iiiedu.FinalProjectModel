@@ -10,7 +10,7 @@ public interface ManagerService {
 
 	List<ManagerBean> select();
 
-	ManagerBean insertManager(ManagerBean bean);
+	int insertManager(ManagerBean bean);
 
 	int delete(Integer id);
 
