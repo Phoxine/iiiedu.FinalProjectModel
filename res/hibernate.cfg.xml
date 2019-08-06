@@ -30,11 +30,11 @@
 		<property name="connection_pool_size">8</property>
 
 		<!-- 3. 宣告程式使用的Mapping檔 ，每個永續類別都需要定義一個Mapping檔 -->
-		<mapping class="model.manager.ManagerBean"></mapping>
-		<mapping class="model.member.MemberBean"></mapping>
-		<mapping class="model.order.OrderBean"></mapping>
-		<mapping class="model.product.ProductBean"></mapping>
-		<mapping class="model.vendor.VendorBean"></mapping>
+		<mapping class="model.manager.bean.ManagerBean"></mapping>
+		<mapping class="model.member.bean.MemberBean"></mapping>
+		<mapping class="model.order.bean.OrderBean"></mapping>
+		<mapping class="model.product.bean.ProductBean"></mapping>
+		<mapping class="model.vendor.bean.VendorBean"></mapping>
 		
 	</session-factory>
 </hibernate-configuration>
