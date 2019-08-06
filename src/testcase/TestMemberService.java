@@ -2,10 +2,11 @@ package testcase;
 
 import java.sql.Blob;
 import java.sql.Timestamp;
-import model.member.MemberBean;
-import model.member.MemberDao;
-import model.member.MemberService;
-import model.member.MemberServiceImpl;
+
+import model.member.bean.MemberBean;
+import model.member.dao.MemberDao;
+import model.member.service.MemberService;
+import model.member.service.impl.MemberServiceImpl;
 
 public class TestMemberService {
 	public static void main(String[] args) {
@@ -18,7 +19,7 @@ public class TestMemberService {
 
 		try {
 //			MemberBean test = service.insertMember(
-//					new MemberBean(1, "peterchao", "020488995", "¤ÑÀs°ê", new Timestamp(0), "peterchao","a12345", "peterchao@gmail.com","1996-01-30",true));
+//					new MemberBean(1, "peterchao", "020488995", "ï¿½ï¿½ï¿½sï¿½ï¿½", new Timestamp(0), "peterchao","a12345", "peterchao@gmail.com","1996-01-30",true));
 //			System.out.println(test.toString());
 //			System.out.println(service.delete(3));
 //			System.out.println(service.select("peterchao").toString());

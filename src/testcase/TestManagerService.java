@@ -2,9 +2,9 @@ package testcase;
 
 import java.sql.Timestamp;
 
-import model.manager.ManagerBean;
-import model.manager.ManagerService;
-import model.manager.ManagerServiceImpl;
+import model.manager.bean.ManagerBean;
+import model.manager.service.ManagerService;
+import model.manager.service.impl.ManagerServiceImpl;
 
 public class TestManagerService {
 	public static void main(String[] args) {

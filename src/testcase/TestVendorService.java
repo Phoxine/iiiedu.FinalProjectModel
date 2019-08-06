@@ -1,9 +1,9 @@
 package testcase;
 
 
-import model.vendor.VendorBean;
-import model.vendor.VendorService;
-import model.vendor.VendorServiceImpl;
+import model.vendor.bean.VendorBean;
+import model.vendor.service.VendorService;
+import model.vendor.service.impl.VendorServiceImpl;
 
 public class TestVendorService {
 	public static void main(String[] args) {
@@ -16,10 +16,10 @@ public class TestVendorService {
 
 		try {
 //			VendorBean test = service.insertVendor(
-//					new VendorBean(1, "¦ò¤ß¤½¥q-Garena","¤ÑÀs°ê", "020488995", "foshigonsu@foshi.com","aaa","0204"));
+//					new VendorBean(1, "ï¿½ï¿½ß¤ï¿½ï¿½q-Garena","ï¿½ï¿½ï¿½sï¿½ï¿½", "020488995", "foshigonsu@foshi.com","aaa","0204"));
 //			System.out.println(test.toString());
 //			System.out.println(service.delete(3));
-//			System.out.println(service.select("¦ò¤ß¤½¥q-Garena").toString());
+//			System.out.println(service.select("ï¿½ï¿½ß¤ï¿½ï¿½q-Garena").toString());
 //			System.out.println(service.select().get(0).toString());
 //			System.out.println(service.select().toString());
 			System.out.println(service.getRecordCounts());

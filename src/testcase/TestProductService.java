@@ -2,10 +2,10 @@ package testcase;
 
 
 
-import model.product.ProductBean;
-import model.product.ProductDaoImpl;
-import model.product.ProductService;
-import model.product.ProductServiceImpl;
+import model.product.bean.ProductBean;
+import model.product.dao.ProductDaoImpl;
+import model.product.service.ProductService;
+import model.product.service.impl.ProductServiceImpl;
 
 public class TestProductService {
 	public static void main(String[] args) {
@@ -19,10 +19,10 @@ public class TestProductService {
 
 		try {
 //			ProductBean test = service.insertProduct(
-//					new ProductBean(1,"ºÖ§Qºµ",1,1,4,"¦B¤t­¹ªÌ,¤â²]®a","1996-01-05","2001-11-18"));
+//					new ProductBean(1,"ï¿½Ö§Qï¿½ï¿½",1,1,4,"ï¿½Bï¿½tï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½]ï¿½a","1996-01-05","2001-11-18"));
 //			System.out.println(test.toString());
 //			System.out.println(service.delete(1));
-//			System.out.println(service.select("ºÖ§Qºµ").toString());
+//			System.out.println(service.select("ï¿½Ö§Qï¿½ï¿½").toString());
 //			System.out.println(service.select().get(0).toString());
 //			System.out.println(service.select().toString());
 			System.out.println(service.getRecordCounts());

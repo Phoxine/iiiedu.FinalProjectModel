@@ -3,11 +3,10 @@ package testcase;
 
 import java.sql.Timestamp;
 
-
-import model.order.OrderBean;
-import model.order.OrderDaoImpl;
-import model.order.OrderService;
-import model.order.OrderServiceImpl;
+import model.order.bean.OrderBean;
+import model.order.dao.impl.OrderDaoImpl;
+import model.order.service.OrderService;
+import model.order.service.impl.OrderServiceImpl;
 
 public class TestOrderService {
 	public static void main(String[] args) {

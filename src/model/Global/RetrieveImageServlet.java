@@ -12,15 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-// 
-// 程式功能：
-// 本Servlet 類別會依據傳入的主鍵呼叫Service元件以讀取該主鍵所對應的紀錄，取出該紀錄內的BLOB欄，
-// 進而讀取存放在BLOB欄內的圖片資料，然後傳回給提出請求的瀏覽器。
-
-import model.member.MemberBean;
-import model.member.MemberService;
-import model.member.MemberServiceImpl;
+import model.member.bean.MemberBean;
+import model.member.service.MemberService;
+import model.member.service.impl.MemberServiceImpl;
 
 @WebServlet("/_00_init/getImage")
 public class RetrieveImageServlet extends HttpServlet {
