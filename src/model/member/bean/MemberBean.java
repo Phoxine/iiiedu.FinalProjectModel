@@ -6,8 +6,18 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Member")
 public class MemberBean implements Serializable {
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer mId; // member id
 	private String name; // member name
 	private String tel; // phone
@@ -19,7 +29,8 @@ public class MemberBean implements Serializable {
 	private java.sql.Timestamp birthday;// birthday
 	private boolean gender; // true = male , false = female
 	private Blob memberImage; // member photo
-
+	
+	
 	/**
 	 * @return the sex
 	 */
